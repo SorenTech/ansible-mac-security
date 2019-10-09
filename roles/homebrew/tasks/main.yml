@@ -1,0 +1,56 @@
+- name: install curl
+  homebrew:
+    name: curl
+    install_options: with-openssl
+    state: linked
+    update_homebrew: yes
+
+- name: configure curl
+  fetch:
+    src: https://raw.githubusercontent.com/drduh/config/master/curlrc
+    dest: /Users/"{{ item }} "/.curlrc
+    loop: "{{ users }}"
+
+- name: install homebrew packages
+  homebrew:
+    name: "{{ item.name }}"
+    install_options: "{{ item.install_options }}"
+    state: present
+    loop:
+      - name: gnupg
+      - name: dnscrypt-proxy
+      - name: dnsmasq
+        install_options: with-dnssec
+      - name: privoxy
+
+- name: configure dns packages
+  fetch:
+    src: https://raw.githubusercontent.com/drduh/config/master/"{{ item.src }}"
+    dest: /usr/local/etc/"{{ item.dest }}"
+    with_items:
+      - name: dnscrypt-proxy
+        src: dnscrypt-proxy.toml 
+        dest: dnscrypt-proxy.toml
+      - name: dnsmasq
+        src: dnsmasq.conf 
+        dest: dnsmasq.conf 
+      - name: privoxy-config 
+        src: privoxy/config 
+        dest: privoxy/config
+      - name: privoxy-user-action
+        src: privoxy/user.action
+        dest: privoxy/user.action 
+
+- name: configure gnupg
+  fetch:
+    src: https://raw.githubusercontent.com/drduh/config/master/gpg.conf
+    dest: /Users/"{{ item }}"/.gpg.conf
+    loop: "{{ users }}"
+
+- name: start homebrew services
+  shell: brew services start "{{ item }}"
+  become: True
+  loop:
+    - dnscrypt-proxy
+    - dnsmasq
+    - privoxy
