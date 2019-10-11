@@ -1,0 +1,20 @@
+- name: install gui security apps with cask
+    homebrew_cask:
+        name: "{{ item }}"
+        state: present
+        install_options: 'appdir=/Applications'
+    loop:
+        - avast-security
+        - bitwarden
+        - blockblock
+        - dhs
+        - firefox
+        - kextviewer
+        - lockdown
+        - lulu
+        - netiquette
+        - ransomewhere
+        - reikey
+        - security-growler
+        - whatsyoursign
+    
