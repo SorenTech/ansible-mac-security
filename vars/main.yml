@@ -1,0 +1,27 @@
+---
+homebrew_taps:
+  - homebrew/core
+  - homebrew/cask
+
+homebrew_installed_packages:
+  - gnupg
+  - dnscrypt-proxy
+  - {name: dnsmasq, install_options: "with-dnssec"}
+  - privoxy
+
+homebrew_cask_apps:
+  - avast-security
+  - bitwarden
+  - blockblock
+  - dhs
+  - kextviewer
+  - knockknock
+  - lockdown
+  - lulu
+  - netiquette
+  - oversight
+  - ransomewhere
+  - reikey
+  - security-growler
+  - taskexplorer
+  - whatsyoursign
