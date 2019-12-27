@@ -11,18 +11,6 @@
     dest: /Users/"{{ item }} "/.curlrc
     loop: "{{ users }}"
 
-- name: install homebrew packages
-  homebrew:
-    name: "{{ item.name }}"
-    install_options: "{{ item.install_options }}"
-    state: present
-    loop:
-      - name: gnupg
-      - name: dnscrypt-proxy
-      - name: dnsmasq
-        install_options: with-dnssec
-      - name: privoxy
-
 - name: configure dns packages
   fetch:
     src: https://raw.githubusercontent.com/drduh/config/master/"{{ item.src }}"
