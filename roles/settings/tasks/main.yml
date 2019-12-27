@@ -1,0 +1,38 @@
+- name: Set baseline security settings
+  osx_defaults:
+    domain: "{{ item_domain }}"
+    key: "{{ item_key }}"
+    type: "{{ item_type }}"
+    value: "{{ item_value }}"
+    become: yes
+  loop:
+    - screensaver-password:
+        domain: com.apple.screensaver
+        key: askForPassword
+        type: int
+        value: 1
+    - screensaver-password-delay:
+        domain: com.apple.screensaver
+        key: askForPasswordDelay
+        type: int
+        value: 0
+    - expose-hidden-files:
+        domain: com.apple.finder
+        key: AppleShowAllFiles
+        type: bool
+        value: true
+    - show-all-file-extensions:
+        domain: NSGlobalDomain
+        key: AppleShowAllExtensions
+        type: bool
+        value: true
+    - enable-firewall:
+        domain: /Library/Preferences/com.apple.alf
+        key: globalstate
+        type: int
+        value: 1
+
+- name: Enable Automatic Software Updates
+  shell: softwareupdate --schedule on > /dev/null 2>&1
+  become: true
+
