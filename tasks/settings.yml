@@ -31,6 +31,11 @@
         key: globalstate
         type: int
         value: 1
+    - disable-captive-portal:
+        domain: /Library/Preferences/SystemConfiguration/com.apple.captive.control.plist
+        key: Active
+        type: bool
+        value: false
 
 - name: Enable Automatic Software Updates
   shell: softwareupdate --schedule on > /dev/null 2>&1
