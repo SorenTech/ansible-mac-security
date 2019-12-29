@@ -19,13 +19,13 @@ homebrew_cask_apps:
   - bitwarden
   - blockblock
   - dhs
-  - kextviewer
+  - kextviewr
   - knockknock
   - lockdown
   - lulu
   - netiquette
   - oversight
-  - ransomewhere
+  - ransomwhere
   - reikey
   - security-growler
   - taskexplorer
