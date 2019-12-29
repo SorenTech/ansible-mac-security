@@ -1,9 +1,11 @@
 ---
 - name: Verify admin user is present
-  user: "{{ admin_user|default(admin) }}"
-  groups: admin,brew
-  state: present
+  user:
+    name: "{{ admin_user|default(admin) }}"
+    groups: admin,brew
+    state: present
 - name: Verify local user is present
-  user: "{{ local_user|default(local) }}"
-  groups: brew
-  state: present
+  user:
+    name: "{{ local_user|default(local) }}"
+    groups: brew
+    state: present
