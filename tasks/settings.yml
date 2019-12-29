@@ -2,8 +2,8 @@
   osx_defaults:
     domain: "{{ item_domain }}"
     key: "{{ item_key }}"
-    type: "{{ item_type }}"
-    value: "{{ item_value }}"
+    type: "{{ item_type|default(bool) }}"
+    value: "{{ item_value|default(true) }}"
     become: yes
   loop:
     - screensaver-password:
@@ -19,13 +19,9 @@
     - expose-hidden-files:
         domain: com.apple.finder
         key: AppleShowAllFiles
-        type: bool
-        value: true
     - show-all-file-extensions:
         domain: NSGlobalDomain
         key: AppleShowAllExtensions
-        type: bool
-        value: true
     - enable-firewall:
         domain: /Library/Preferences/com.apple.alf
         key: globalstate
@@ -34,43 +30,31 @@
     - disable-captive-portal:
         domain: /Library/Preferences/SystemConfiguration/com.apple.captive.control.plist
         key: Active
-        type: bool
         value: false
     - disable-icloud-save-default:
         domain: NSGlobalDomain
         key: NSDocumentSaveNewDocumentsToCloud
-        type: bool
         value: false
     - safari-search-no-queries-to-apple:
         domain: com.apple.Safari
         key: UniversalSearchEnabled
-        type: bool
         value: false
     - safari-suppress-search-suggestions:
         domain: com.apple.Safari
         key: SuppressSearchSuggestions
-        type: bool
-        value: true
     - safari-dont-open-files-automatically:
         domain: com.apple.Safari
         key: AutoOpenSafeDownloads
-        type: bool
         value: false
     - safari-warn-fraudulent-sites:
         domain: com.apple.Safari
         key: WarnAboutFraudulentWebsites
-        type: bool
-        value: true
     - safari-do-not-track:
         domain: com.apple.Safari
         key: SendDoNotTrackHTTPHeader
-        type: bool
-        value: true
     - software-auto-update:
         domain: com.apple.SoftwareUpdate
         key: com.apple.SoftwareUpdate
-        type: bool
-        value: true
     - check-for-updates-daily:
         domain: com.apple.SoftwareUpdate
         key: ScheduleFrequency
@@ -89,17 +73,12 @@
     - auto-update-apps:
         domain: com.apple.commerce
         key: AutoUpdate
-        type: bool
-        value: true
     - reboot-machine-for-updates:
         domain: com.apple.commerce
         key: AutoUpdateRestartRequired
-        type: bool
-        value: true
     - secure-trash-empty:
         domain: com.apple.finder
         key: EmptyTrashSecurely
-        type: bool
-        value: true
+
 
 
