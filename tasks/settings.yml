@@ -4,81 +4,27 @@
     key: "{{ item.key }}"
     type: "{{ item.type|default(bool) }}"
     value: "{{ item.value|default(true) }}"
-    become: yes
+  become: yes
   loop:
-    - screensaver-password:
-        domain: com.apple.screensaver
-        key: askForPassword
-        type: int
-        value: 1
-    - screensaver-password-delay:
-        domain: com.apple.screensaver
-        key: askForPasswordDelay
-        type: int
-        value: 0
-    - expose-hidden-files:
-        domain: com.apple.finder
-        key: AppleShowAllFiles
-    - show-all-file-extensions:
-        domain: NSGlobalDomain
-        key: AppleShowAllExtensions
-    - enable-firewall:
-        domain: /Library/Preferences/com.apple.alf
-        key: globalstate
-        type: int
-        value: 1
-    - disable-captive-portal:
-        domain: /Library/Preferences/SystemConfiguration/com.apple.captive.control.plist
-        key: Active
-        value: false
-    - disable-icloud-save-default:
-        domain: NSGlobalDomain
-        key: NSDocumentSaveNewDocumentsToCloud
-        value: false
-    - safari-search-no-queries-to-apple:
-        domain: com.apple.Safari
-        key: UniversalSearchEnabled
-        value: false
-    - safari-suppress-search-suggestions:
-        domain: com.apple.Safari
-        key: SuppressSearchSuggestions
-    - safari-dont-open-files-automatically:
-        domain: com.apple.Safari
-        key: AutoOpenSafeDownloads
-        value: false
-    - safari-warn-fraudulent-sites:
-        domain: com.apple.Safari
-        key: WarnAboutFraudulentWebsites
-    - safari-do-not-track:
-        domain: com.apple.Safari
-        key: SendDoNotTrackHTTPHeader
-    - software-auto-update:
-        domain: com.apple.SoftwareUpdate
-        key: com.apple.SoftwareUpdate
-    - check-for-updates-daily:
-        domain: com.apple.SoftwareUpdate
-        key: ScheduleFrequency
-        type: int
-        value: 1
-    - download-updates-in-background:
-        domain: com.apple.SoftwareUpdate
-        key: AutomaticDownload
-        type: int
-        value: 1
-    - install-critical-updates:
-        domain: com.apple.SoftwareUpdate
-        key: CriticalUpdateInstall
-        type: int
-        value: 1
-    - auto-update-apps:
-        domain: com.apple.commerce
-        key: AutoUpdate
-    - reboot-machine-for-updates:
-        domain: com.apple.commerce
-        key: AutoUpdateRestartRequired
-    - secure-trash-empty:
-        domain: com.apple.finder
-        key: EmptyTrashSecurely
+    - { domain: com.apple.screensaver, key: askForPassword, type: int, value: 1 }
+    - { domain: com.apple.screensaver, key: askForPasswordDelay, type: int, value: 0 }
+    - { domain: com.apple.finder, key: AppleShowAllFiles }
+    - { domain: NSGlobalDomain, key: AppleShowAllExtensions }
+    - { domain: /Library/Preferences/com.apple.alf, key: globalstate, type: int, value: 1 }
+    - { domain: /Library/Preferences/SystemConfiguration/com.apple.captive.control.plist, key: Active, value: false }
+    - { domain: NSGlobalDomain, key: NSDocumentSaveNewDocumentsToCloud, value: false }
+    - { domain: com.apple.Safari, key: UniversalSearchEnabled, value: false }
+    - { domain: com.apple.Safari, key: SuppressSearchSuggestions }
+    - { domain: com.apple.Safari, key: AutoOpenSafeDownloads, value: false }
+    - { domain: com.apple.Safari, key: WarnAboutFraudulentWebsites }
+    - { domain: com.apple.Safari, key: SendDoNotTrackHTTPHeader }
+    - { domain: com.apple.SoftwareUpdate, key: com.apple.SoftwareUpdate }
+    - { domain: com.apple.SoftwareUpdate, key: ScheduleFrequency, type: int, value: 1 }
+    - { domain: com.apple.SoftwareUpdate, key: AutomaticDownload, type: int, value: 1 }
+    - { domain: com.apple.SoftwareUpdate, key: CriticalUpdateInstall, type: int, value: 1 }
+    - { domain: com.apple.commerce, key: AutoUpdate }
+    - { domain: com.apple.commerce, key: AutoUpdateRestartRequired }
+    - { domain: com.apple.finder, key: EmptyTrashSecurely }
 
 
 
