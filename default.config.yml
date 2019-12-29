@@ -1,15 +1,15 @@
 ---
-# homebrew_user: "{{ admin_user }}"
+admin_user: "{{ ansible_user_id }}"
 
-# homebrew_group: "brew"
+homebrew_group: brew
 
 homebrew_taps:
   - homebrew/core
   - homebrew/cask
 
 homebrew_installed_packages:
-  - dnscrypt-proxy
   - dnsmasq
+  - dnscrypt-proxy
   - gnupg
   - privoxy
 
