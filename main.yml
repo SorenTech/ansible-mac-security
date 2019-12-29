@@ -6,12 +6,16 @@
     - default.config.yml
 
   pre_tasks:
-    - include_tasks: tasks/users.yml
+    - include_vars: "{{ item }}"
+      with_fileglob:
+        - "{{ playbook_dir }}/config.yml"
+      tags: ['always']
 
   roles:
     - role: geerlingguy.homebrew
       tags: ['always']
 
   tasks:
+    - include_tasks: tasks/users.yml
     - include_tasks: tasks/settings.yml
     - include_tasks: tasks/cli.yml
