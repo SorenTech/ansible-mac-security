@@ -1,12 +1,17 @@
 ---
+homebrew_user: "{{ admin_user }}"
+
+homebrew_group: brew
+
 homebrew_taps:
   - homebrew/core
   - homebrew/cask
 
 homebrew_installed_packages:
-  - gnupg
+  - { name: curl, install_options: "with-openssl" }
   - dnscrypt-proxy
   - {name: dnsmasq, install_options: "with-dnssec"}
+  - gnupg
   - privoxy
 
 homebrew_cask_apps:
