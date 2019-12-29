@@ -1,15 +1,16 @@
-- name: install curl
+- name: link curl
   homebrew:
     name: curl
     install_options: with-openssl
     state: linked
-    update_homebrew: yes
 
 - name: configure curl
   fetch:
     src: https://raw.githubusercontent.com/drduh/config/master/curlrc
     dest: /Users/"{{ item }} "/.curlrc
-    loop: "{{ users }}"
+    loop:
+      - "{{ admin_user }}"
+      - "{{ local_user }}"
 
 - name: configure dns packages
   fetch:
@@ -33,7 +34,9 @@
   fetch:
     src: https://raw.githubusercontent.com/drduh/config/master/gpg.conf
     dest: /Users/"{{ item }}"/.gpg.conf
-    loop: "{{ users }}"
+    loop:
+      - "{{ admin_user }}"
+      - "{{ local_user }}"
 
 - name: start homebrew services
   shell: brew services start "{{ item }}"
