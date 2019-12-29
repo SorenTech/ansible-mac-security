@@ -8,9 +8,8 @@ homebrew_taps:
   - homebrew/cask
 
 homebrew_installed_packages:
-  - { name: curl, install_options: "with-openssl" }
   - dnscrypt-proxy
-  - {name: dnsmasq, install_options: "with-dnssec"}
+  - dnsmasq
   - gnupg
   - privoxy
 
