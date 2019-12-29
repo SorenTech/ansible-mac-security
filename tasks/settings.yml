@@ -1,9 +1,9 @@
 - name: Set baseline security settings
   osx_defaults:
-    domain: "{{ item_domain }}"
-    key: "{{ item_key }}"
-    type: "{{ item_type|default(bool) }}"
-    value: "{{ item_value|default(true) }}"
+    domain: "{{ item.domain }}"
+    key: "{{ item.key }}"
+    type: "{{ item.type|default(bool) }}"
+    value: "{{ item.value|default(true) }}"
     become: yes
   loop:
     - screensaver-password:
