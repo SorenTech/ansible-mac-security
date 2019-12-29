@@ -1,11 +1,17 @@
 ---
+- name: Ensure brew group exists
+  group:
+    name: brew
+    state: present
 - name: Verify admin user is present
   user:
-    name: "{{ admin_user|default(ansible_user_id) }}"
+    name: "{{ admin_user }}"
     groups: admin,brew
     state: present
+    become: Yes
 - name: Verify local user is present
   user:
-    name: "{{ local_user|default('local') }}"
+    name: "{{ local_user|default('local-yocal') }}"
     groups: brew
     state: present
+    become: Yes
