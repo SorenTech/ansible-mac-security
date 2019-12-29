@@ -1,0 +1,5 @@
+---
+- name: configure curl
+  fetch:
+    src: https://raw.githubusercontent.com/drduh/config/master/curlrc
+    dest: ~/.curlrc
