@@ -1,7 +1,7 @@
 ---
-homebrew_user: "{{ admin_user }}"
+# homebrew_user: "{{ admin_user }}"
 
-homebrew_group: "brew"
+# homebrew_group: "brew"
 
 homebrew_taps:
   - homebrew/core
