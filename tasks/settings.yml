@@ -2,8 +2,8 @@
   osx_defaults:
     domain: "{{ item.domain }}"
     key: "{{ item.key }}"
-    type: "{{ item.type|default(bool) }}"
-    value: "{{ item.value|default(true) }}"
+    type: "{{ item.type|default('bool') }}"
+    value: "{{ item.value|default('true') }}"
   become: yes
   loop:
     - { domain: com.apple.screensaver, key: askForPassword, type: int, value: 1 }
