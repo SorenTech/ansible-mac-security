@@ -1,7 +1,7 @@
 ---
 - name: Verify admin user is present
   user:
-    name: "{{ admin_user|default('admin') }}"
+    name: "{{ admin_user|default(ansible_user_id) }}"
     groups: admin,brew
     state: present
 - name: Verify local user is present
