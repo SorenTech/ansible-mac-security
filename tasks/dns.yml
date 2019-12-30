@@ -14,7 +14,7 @@
 
 - name: configure dns packages
   fetch:
-    src: https://raw.githubusercontent.com/drduh/config/master/"{{ item.src }}"
+    src: files/"{{ item.src }}"
     dest: /usr/local/etc/"{{ item.dest }}"
     with_items:
       - { src: dnscrypt-proxy.toml, dest: dnscrypt-proxy.toml }
