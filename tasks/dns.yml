@@ -4,18 +4,10 @@
     src: https://raw.githubusercontent.com/drduh/config/master/"{{ item.src }}"
     dest: /usr/local/etc/"{{ item.dest }}"
     with_items:
-      - name: dnscrypt-proxy
-        src: dnscrypt-proxy.toml 
-        dest: dnscrypt-proxy.toml
-      - name: dnsmasq
-        src: dnsmasq.conf 
-        dest: dnsmasq.conf 
-      - name: privoxy-config 
-        src: privoxy/config 
-        dest: privoxy/config
-      - name: privoxy-user-action
-        src: privoxy/user.action
-        dest: privoxy/user.action 
+      - { src: dnscrypt-proxy.toml, dest: dnscrypt-proxy.toml }
+      - { src: dnsmasq.conf, dest: dnsmasq.conf } 
+      - { src: privoxy/config, dest: privoxy/config }
+      - { src: privoxy/user.action, dest: privoxy/user.action } 
 
 #- name: configure gnupg
 #  fetch:
