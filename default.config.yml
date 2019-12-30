@@ -1,7 +1,7 @@
 ---
 admin_user: "{{ ansible_user_id }}"
 
-homebrew_group: brew
+# homebrew_group: brew
 
 homebrew_taps:
   - homebrew/core
