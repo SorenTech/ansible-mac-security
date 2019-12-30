@@ -23,14 +23,6 @@
     - { src: privoxy/config, dest: privoxy/config }
     - { src: privoxy/user.action, dest: privoxy/user.action } 
 
-#- name: configure gnupg
-#  fetch:
-#    src: https://raw.githubusercontent.com/drduh/config/master/gpg.conf
-#    dest: /Users/"{{ item }}"/.gpg.conf
-#    loop:
-#      - "{{ admin_user }}"
-#      - "{{ local_user }}"
-
 - name: start homebrew services
   shell: "brew services start {{ item }}"
   become: True
