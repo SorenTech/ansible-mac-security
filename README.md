@@ -6,7 +6,7 @@ This playbook will provide a baseline of security and privacy for a new Mac. It 
 
 Quick install method: 
 
-`$ sh -c "$(curl -fsSL https://raw.githubusercontent.com/apmarshall/mac-dev-playbook/master/install.sh)"`
+`$ sh -c "$(curl -fsSL https://raw.githubusercontent.com/SorenTech/ansible-mac-security/master/install.sh)"`
 
 > Note: If some Homebrew commands fail, you might need to agree to Xcode's license or fix some other Brew issue. Run `brew doctor` to see if this is the case.
 
@@ -25,27 +25,6 @@ You can override any of the defaults configured in `default.config.yml` by creat
       - git
       - go
     
-    mas_installed_apps:
-      - { id: 443987910, name: "1Password" }
-      - { id: 498486288, name: "Quick Resizer" }
-      - { id: 557168941, name: "Tweetbot" }
-      - { id: 497799835, name: "Xcode" }
-    
-    composer_packages:
-      - name: hirak/prestissimo
-      - name: drush/drush
-        version: '^8.1'
-    
-    gem_packages:
-      - name: bundler
-        state: latest
-    
-    npm_packages:
-      - name: webpack
-    
-    pip_packages:
-      - name: mkdocs
-
 Any variable can be overridden in `config.yml`; see the supporting roles' documentation for a complete list of available variables.
 
 ## What This Playbook Does:
