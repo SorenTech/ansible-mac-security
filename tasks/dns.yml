@@ -44,7 +44,7 @@
   become: True
 
 - name: change Ethernet DNS servers
-  shell: networksetup -setdnsservers "Ehternet" 127.0.0.1
+  shell: networksetup -setdnsservers "Ethernet" 127.0.0.1
   become: True
 
 - name: change system proxy
