@@ -6,6 +6,7 @@ admin_user: "{{ ansible_user_id }}"
 homebrew_taps:
   - homebrew/core
   - homebrew/cask
+  - homebrew/services
 
 homebrew_installed_packages:
   - dnsmasq
