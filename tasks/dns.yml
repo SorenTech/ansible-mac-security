@@ -38,14 +38,14 @@
     - privoxy
 
 - name: change system DNS
-  shell: "networksetup --setdnsservers {{ item }}" 127.0.0.1
+  shell: "networksetup --setdnsservers {{ item }} 127.0.0.1"
   become: True
   loop:
     - "Wi-Fi"
     - "Ethernet"
 
 - name: change system proxy
-  shell: "networksetup --setsecurewebproxy {{ item }}" 127.0.0.1 8118
+  shell: "networksetup --setsecurewebproxy {{ item }} 127.0.0.1 8118"
   become: True
   loop:
     - "Wi-Fi"
