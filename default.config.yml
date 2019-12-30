@@ -15,19 +15,19 @@ homebrew_installed_packages:
   - privoxy
   - python 
 
-# homebrew_cask_apps:
-#  - avast-security
-#  - bitwarden
-#  - blockblock
-#  - dhs
-#  - kextviewr
-#  - knockknock
-#  - lockdown
-#  - lulu
-#  - netiquette
-#  - oversight
-#  - ransomwhere
-#  - reikey
-#  - security-growler
-#  - taskexplorer
-#  - whatsyoursign
+homebrew_cask_apps:
+  - avast-security
+  - bitwarden
+  - blockblock
+  - dhs
+  - kextviewr
+  - knockknock
+  - lockdown
+  - lulu
+  - netiquette
+  - oversight
+  - ransomwhere
+  - reikey
+  - security-growler
+  - taskexplorer
+  - whatsyoursign
