@@ -4,6 +4,7 @@
     repo: 'https://github.com/StevenBlack/hosts.git'
     dest: ~/.hosts
     depth: 1
+    force: yes
 
 - name: Install Hosts Updater Dependencies
   shell: cd ~/.hosts && pip3 install --user -r requirements.txt
