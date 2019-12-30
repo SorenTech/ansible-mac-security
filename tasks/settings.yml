@@ -1,0 +1,30 @@
+- name: Set baseline security settings
+  osx_defaults:
+    domain: "{{ item.domain }}"
+    key: "{{ item.key }}"
+    type: "{{ item.type|default('bool') }}"
+    value: "{{ item.value|default('true') }}"
+  become: yes
+  loop:
+    - { domain: com.apple.screensaver, key: askForPassword, type: int, value: 1 }
+    - { domain: com.apple.screensaver, key: askForPasswordDelay, type: int, value: 0 }
+    - { domain: com.apple.finder, key: AppleShowAllFiles }
+    - { domain: NSGlobalDomain, key: AppleShowAllExtensions }
+    - { domain: /Library/Preferences/com.apple.alf, key: globalstate, type: int, value: 1 }
+    - { domain: /Library/Preferences/SystemConfiguration/com.apple.captive.control.plist, key: Active, value: false }
+    - { domain: NSGlobalDomain, key: NSDocumentSaveNewDocumentsToCloud, value: false }
+    - { domain: com.apple.Safari, key: UniversalSearchEnabled, value: false }
+    - { domain: com.apple.Safari, key: SuppressSearchSuggestions }
+    - { domain: com.apple.Safari, key: AutoOpenSafeDownloads, value: false }
+    - { domain: com.apple.Safari, key: WarnAboutFraudulentWebsites }
+    - { domain: com.apple.Safari, key: SendDoNotTrackHTTPHeader }
+    - { domain: com.apple.SoftwareUpdate, key: com.apple.SoftwareUpdate }
+    - { domain: com.apple.SoftwareUpdate, key: ScheduleFrequency, type: int, value: 1 }
+    - { domain: com.apple.SoftwareUpdate, key: AutomaticDownload, type: int, value: 1 }
+    - { domain: com.apple.SoftwareUpdate, key: CriticalUpdateInstall, type: int, value: 1 }
+    - { domain: com.apple.commerce, key: AutoUpdate }
+    - { domain: com.apple.commerce, key: AutoUpdateRestartRequired }
+    - { domain: com.apple.finder, key: EmptyTrashSecurely }
+
+
+

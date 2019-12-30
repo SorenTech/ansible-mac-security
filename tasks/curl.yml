@@ -1,0 +1,5 @@
+---
+- name: configure curl
+  fetch:
+    src: files/curlrc
+    dest: ~/.curlrc

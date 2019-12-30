@@ -1,0 +1,33 @@
+---
+admin_user: "{{ ansible_user_id }}"
+
+# homebrew_group: brew
+
+homebrew_taps:
+  - homebrew/core
+  - homebrew/cask
+  - homebrew/services
+
+homebrew_installed_packages:
+  - dnsmasq
+  - dnscrypt-proxy
+  - gnupg
+  - privoxy
+  - python 
+
+# homebrew_cask_apps:
+#  - avast-security
+#  - bitwarden
+#  - blockblock
+#  - dhs
+#  - kextviewr
+#  - knockknock
+#  - lockdown
+#  - lulu
+#  - netiquette
+#  - oversight
+#  - ransomwhere
+#  - reikey
+#  - security-growler
+#  - taskexplorer
+#  - whatsyoursign
