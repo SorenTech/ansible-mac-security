@@ -42,27 +42,29 @@
 - name: check network services for Wifi
   shell: networksetup -listallnetworkservices | grep -c "Wi-Fi"
   register: wifi_active
+  failed_when: wifi_active.rc != 1 and wifi_active.rc != 0
 
 - name: check network services for Ethernet
   shell: networksetup -listallnetworkservices | grep -c "Ethernet"
   register: ethernet_active
+  failed_when: ethernet_active.rc != 1 and ethernet_active.rc != 0
 
 - name: change Wi-Fi DNS servers
   shell: networksetup -setdnsservers "Wi-Fi" 127.0.0.1
   become: True
-  when: wifi_active 
+  when: wifi_active.rc = 1 
 
 - name: change Ethernet DNS servers
   shell: networksetup -setdnsservers "Ethernet" 127.0.0.1
   become: True
-  when: ethernet_active 
+  when: ethernet_active = 1 
 
 - name: change ethernet proxy
   shell: networksetup -setsecurewebproxy "Ethernet" 127.0.0.1 8118
   become: True
-  when: ethernet_active
+  when: ethernet_active = 1
 
 - name: change wifi proxy
   shell: networksetup -setsecurewebproxy "Wi-Fi" 127.0.0.1 8118
   become: True
-  when: wifi_active
+  when: wifi_active = 1
