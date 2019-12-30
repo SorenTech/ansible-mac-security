@@ -12,6 +12,7 @@ homebrew_installed_packages:
   - dnscrypt-proxy
   - gnupg
   - privoxy
+  - python 
 
 homebrew_cask_apps:
   - avast-security
