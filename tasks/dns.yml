@@ -16,6 +16,7 @@
   fetch:
     src: "files/{{ item.src }}"
     dest: "/usr/local/etc/{{ item.dest }}"
+    flat: yes
   loop:
     - { src: dnscrypt-proxy.toml, dest: dnscrypt-proxy.toml }
     - { src: dnsmasq.conf, dest: dnsmasq.conf } 
