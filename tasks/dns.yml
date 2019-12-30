@@ -1,4 +1,17 @@
 ---
+- name: Clone Stephen Black Hosts
+  git:
+    repo: 'https://github.com/StevenBlack/hosts.git'
+    dest: ~/.hosts
+    depth: 1
+
+- name: Install Hosts Updater Dependencies
+  shell: cd ~/.hosts && pip3 install --user -r requirements.txt
+
+- name: Generate Hosts File
+  shell: cd ~/.hosts && python3 updateHostsFile.py --auto --replace --flush-dns-cache --extensions fakenews gambling porn
+  become: Yes
+
 - name: configure dns packages
   fetch:
     src: https://raw.githubusercontent.com/drduh/config/master/"{{ item.src }}"
