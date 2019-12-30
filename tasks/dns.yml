@@ -39,9 +39,9 @@
     - dnsmasq
     - privoxy
 
-- name: change Wi-Fi DNS servers
-  shell: networksetup -setdnsservers "Wi-Fi" 127.0.0.1
-  become: True
+# - name: change Wi-Fi DNS servers
+#  shell: networksetup -setdnsservers "Wi-Fi" 127.0.0.1
+#  become: True
 
 - name: change Ethernet DNS servers
   shell: networksetup -setdnsservers "Ethernet" 127.0.0.1
@@ -51,5 +51,5 @@
   shell: "networksetup -setsecurewebproxy {{ item }} 127.0.0.1 8118"
   become: True
   loop:
-    - '"Wi-Fi"'
+   #  - '"Wi-Fi"'
     - '"Ethernet"'
