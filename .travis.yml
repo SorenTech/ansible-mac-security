@@ -15,10 +15,10 @@ before_install:
 
 install:
   # Install pip.
-  - sudo easy_install pip3
+  - sudo easy_install pip
 
   # Install Ansible.
-  - sudo pip3 install ansible
+  - sudo pip install ansible
 
   # Add ansible.cfg to pick up roles path.
   - "{ echo '[defaults]'; echo 'roles_path = ../'; } >> ansible.cfg"
