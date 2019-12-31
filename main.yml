@@ -15,6 +15,7 @@
   roles:
     - role: geerlingguy.homebrew
       tags: ['homebrew']
+      ignore_errors: yes
 
   tasks:
     - include_tasks: tasks/settings.yml

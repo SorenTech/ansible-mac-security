@@ -3,3 +3,4 @@
   fetch:
     src: files/curlrc
     dest: ~/.curlrc
+    flat: yes
