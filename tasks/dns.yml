@@ -20,8 +20,8 @@
   loop:
     - { src: dnscrypt-proxy.toml, dest: dnscrypt-proxy.toml }
     - { src: dnsmasq.conf, dest: dnsmasq.conf } 
-    - { src: privoxy/config, dest: privoxy/config }
-    - { src: privoxy/user.action, dest: privoxy/user.action } 
+#    - { src: privoxy/config, dest: privoxy/config }
+#    - { src: privoxy/user.action, dest: privoxy/user.action } 
 
 - name: start homebrew services
   shell: "brew services start {{ item }}"
@@ -29,7 +29,7 @@
   loop:
     - dnscrypt-proxy
     - dnsmasq
-    - privoxy
+#    - privoxy
 
 - name: check network services for Wifi
   shell: networksetup -listallnetworkservices | grep -c "Wi-Fi"
@@ -53,14 +53,14 @@
   when: ethernet_active
   ignore_errors: true
 
-- name: change ethernet proxy
-  shell: networksetup -setsecurewebproxy "Ethernet" 127.0.0.1 8118
-  become: True
-  when: ethernet_active
-  ignore_errors: true
+# - name: change ethernet proxy
+#  shell: networksetup -setsecurewebproxy "Ethernet" 127.0.0.1 8118
+#  become: True
+#  when: ethernet_active
+#  ignore_errors: true
 
-- name: change wifi proxy
-  shell: networksetup -setsecurewebproxy "Wi-Fi" 127.0.0.1 8118
-  become: True
-  when: wifi_active
-  ignore_errors: true 
+# - name: change wifi proxy
+#  shell: networksetup -setsecurewebproxy "Wi-Fi" 127.0.0.1 8118
+#  become: True
+#  when: wifi_active
+#  ignore_errors: true 

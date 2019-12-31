@@ -22,12 +22,12 @@ if [ -x "$(command -v ansible)" ]; then
 fi
 
 # Add ansible.cfg to pick up roles path.
-"{ echo '[defaults]'; echo 'roles_path = ../'; } >> ansible.cfg"
+# "{ echo '[defaults]'; echo 'roles_path = ../'; } >> ansible.cfg"
 
 # Add a hosts file.
 sudo mkdir -p /etc/ansible
 sudo touch /etc/ansible/hosts
-"echo -e '[local]\nlocalhost ansible_connection=local' | sudo tee -a /etc/ansible/hosts > /dev/null"
+echo -e '[local]\nlocalhost ansible_connection=local' | sudo tee -a /etc/ansible/hosts > /dev/null
 
 # clone repo
 git clone https://github.com/SorenTech/ansible-mac-security.git ~/.baseline
