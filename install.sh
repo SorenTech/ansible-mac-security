@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/bash
 
 # Simple Install Script to Set Up Security Baseline on a New Mac with One Command Using Curl
 # What it does:
@@ -13,11 +13,11 @@ sudo -v
 while true; do sudo -n true; sleep 60; kill -0 "$$" || exit; done 2>/dev/null &
 
 # Install pip and ansible if they aren't already on the system 
-if [ -x "$(command -v pip)" ]; then
+if [ ! command -v pip >/dev/null 2>&1 ]; then
     sudo easy_install pip
 fi
 
-if [ -x "$(command -v ansible)" ]; then
+if [ ! command -v ansible >/dev/null 2>&1 ]; then
     sudo pip install ansible
 fi
 
@@ -27,7 +27,7 @@ fi
 # Add a hosts file.
 sudo mkdir -p /etc/ansible
 sudo touch /etc/ansible/hosts
-echo -e '[local]\nlocalhost ansible_connection=local' | sudo tee -a /etc/ansible/hosts > /dev/null
+echo -e '[local]\nlocalhost ansible_connection=local' | sudo tee -a /etc/ansible/hosts >/dev/null
 
 # clone repo
 git clone https://github.com/SorenTech/ansible-mac-security.git ~/.baseline
