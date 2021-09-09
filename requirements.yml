@@ -1,2 +1,5 @@
 ---
-- name: geerlingguy.homebrew
+- collections:
+  name: geerlingguy.mac
+- roles:
+  name: geerlingguy.mac.homebrew

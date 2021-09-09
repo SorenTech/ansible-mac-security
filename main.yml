@@ -13,7 +13,7 @@
     - include_tasks: tasks/curl.yml
 
   roles:
-    - role: geerlingguy.homebrew
+    - role: geerlingguy.mac.homebrew
       tags: ['homebrew']
       ignore_errors: yes
 
