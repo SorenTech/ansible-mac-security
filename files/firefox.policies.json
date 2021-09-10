@@ -1,0 +1,77 @@
+{
+    "policies": {
+        "AppAutoUpdate": true,
+        "BackgroundAppUpdate": true,
+        "Cookies": {
+            "Default": true,
+            "AcceptThirdParty": "from-visited",
+            "RejectTracker": true
+        },
+        "EnableTrackingProtection": {
+            "Value": true,
+            "Cryptomining": true,
+            "Fingerprinting": true
+        },
+        "EncryptedMediaExtensions": {
+            "Enabled": false
+        },
+        "ExtensionSettings": {
+            "*": {
+                "install_sources": ["about:addons", "https://addons.mozilla.org/"],
+                "blocked_install_message": "This addon is from an unrecognized source. Only extensions from recognized sources may be installed."
+            },
+            "@contain-amzn": {
+                "installation_mode": "force_installed",
+                "install_url": "https://addons.mozilla.org/firefox/downloads/latest/contain-amazon/latest.xpi"
+            },
+            "@contain-facebook": {
+                "installation_mode": "force_installed",
+                "install_url": "https://addons.mozilla.org/firefox/downloads/latest/facebook-container/latest.xpi"
+            },
+            "@contain-google": {
+                "installation_mode": "force_installed",
+                "install_url": "https://addons.mozilla.org/firefox/downloads/latest/google-container/latest.xpi"
+            },
+            "@testpilot-containers": {
+                "installation_mode": "force-installed",
+                "install_url": "https://addons.mozilla.org/firefox/downloads/latest/multi-acount-containers/latest.xpi"
+            },
+            "uBlock@raymondhill.net": {
+                "instllation_mode": "force_installed",
+                "install_url": "https://addons.mozilla.org/firefox/downloads/latest/ublock-origin/latest.xpi"
+            },
+        },
+        "ExtensionUpdate": true,
+        "FlashPlugin": {
+            "Default": false,
+            "Locked": true
+        },
+        "OfferToSaveLogins": false,
+        "PopupBlocking": {
+            Default: true
+        },
+        "Preferences": {
+            "security.insecure_connection_text.enabled": {
+                "value": true,
+                "status": locked
+            },
+            "security.insecure_connection_text.pbmode.enabled": {
+                "value": true,
+                "status": locked
+            },
+            "security.insecure_field_warning.contextual.enabled": {
+                "status": locked
+            },
+            "security.tls.hello_downgrade_check": {
+                "status": locked
+            },
+            "security.tls.version.enable-deprecated": {
+                "status": locked
+            },
+            "security.warn_submit_secure_to_insecure": {
+                "status": locked
+            }              
+        },
+        "SSLVersionMin": "tls1.2"
+    }
+}
