@@ -1,16 +1,27 @@
 ---
 - name: Clone Stephen Black Hosts
-  git:
-    repo: 'https://github.com/StevenBlack/hosts.git'
-    dest: ~/.hosts
-    depth: 1
-    force: yes
+  shell: git clone https://github.com/StevenBlack/hosts.git /usr/local/hosts --depth=1
+  become: yes
 
 - name: Install Hosts Updater Dependencies
-  shell: cd ~/.hosts && pip3 install --user -r requirements.txt
+  shell: cd /usr/local/hosts && pip3 install --user -r requirements.txt
+  become: yes
 
 - name: Generate Hosts File
-  shell: cd ~/.hosts && python3 updateHostsFile.py --auto --replace --flush-dns-cache --extensions fakenews gambling 
+  shell: cd /usr/local/hosts && python3 updateHostsFile.py --auto --replace --flush-dns-cache --extensions fakenews gambling porn
+  become: yes
+    
+- name: Move HostsUpdater.Plist to Library/LaunchDaemons
+  fetch:
+    src: "files/local.baseline.hostsupdater.plist"
+    dest: "/Library/LaunchDaemons/local.baseline.hostsupdater.plist"
+    become: yes
+  
+- name: Enable HostsUpdater.Plist Launch Daemon
+  community.general.launchd:
+    name: local.baseline.hostsupdater
+    state: started
+    become: yes
 
 - name: configure dns packages
   fetch:
@@ -20,8 +31,6 @@
   loop:
     - { src: dnscrypt-proxy.toml, dest: dnscrypt-proxy.toml }
     - { src: dnsmasq.conf, dest: dnsmasq.conf } 
-#    - { src: privoxy/config, dest: privoxy/config }
-#    - { src: privoxy/user.action, dest: privoxy/user.action } 
 
 - name: start homebrew services
   shell: "brew services start {{ item }}"
@@ -29,7 +38,6 @@
   loop:
     - dnscrypt-proxy
     - dnsmasq
-#    - privoxy
 
 - name: check network services for Wifi
   shell: networksetup -listallnetworkservices | grep -c "Wi-Fi"
@@ -52,15 +60,3 @@
   become: True
   when: ethernet_active
   ignore_errors: true
-
-# - name: change ethernet proxy
-#  shell: networksetup -setsecurewebproxy "Ethernet" 127.0.0.1 8118
-#  become: True
-#  when: ethernet_active
-#  ignore_errors: true
-
-# - name: change wifi proxy
-#  shell: networksetup -setsecurewebproxy "Wi-Fi" 127.0.0.1 8118
-#  become: True
-#  when: wifi_active
-#  ignore_errors: true 

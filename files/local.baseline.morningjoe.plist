@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+  <key>Label</key>
+  <string>local.baseline.morningjoe.plist</string>
+
+  <key>ProgramArguments</key>
+  <dict>
+    <string>brew</string>
+    <string>upgrade</string>
+  </dict>
+  
+  <key>StandardOutputPath</key>
+  <string>/usr/local/logs/morningjoe.log</string>
+  <key>StandardErrorPath</key>
+  <string>/usr/local/logs/morningjoe.error</string>
+
+  <key>Nice</key>
+  <integer>1</integer>
+
+  <key>RunAtLoad</key>
+  <true/>
+</dict>
+</plist>

@@ -12,14 +12,14 @@ homebrew_installed_packages:
   - bitwarden-cli
   - dnsmasq
   - dnscrypt-proxy
-  - gnupg
-  - privoxy
-  - python 
+  - gnupg 
 
 homebrew_cask_apps:
   - bitwarden
   - blockblock
   - dhs
+  - firefox
+  - google-chrome
   - kextviewr
   - knockknock
   - lockdown
@@ -31,4 +31,5 @@ homebrew_cask_apps:
   - reikey
   - security-growler
   - taskexplorer
+  - vivaldi
   - whatsyoursign

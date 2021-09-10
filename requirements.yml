@@ -1,2 +1,5 @@
 ---
-- name: geerlingguy.homebrew
+collections:
+  - geerlingguy.mac
+  - community.general
+

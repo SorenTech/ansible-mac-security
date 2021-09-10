@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+  <key>Label</key>
+  <string>local.baseline.hostsupdater.plist</string>
+  
+  <key>WorkingDirectory</key>
+  <string>/usr/local/hosts</string>
+
+  <key>ProgramArguments</key>
+  <dict>
+    <string>python3</string>
+    <string>updateHostsFile.py</string>
+    <string>--auto</string>
+    <string>--prelace</string>
+    <string>--flush-dns-cache</string>
+    <string>--extensions</string>
+    <string>fakenews</string>
+    <string>gambling</string>
+    <string>porn</string>
+  </dic>
+  
+  <key>StandareOutPath</key>
+  <string>/usr/local/logs/hostsupdater.log</string>
+  <key>StandardErrorPath</key>
+  <string>/usr/local/logs/hostsupdater.error</string>
+  
+  <key>Nice</key>
+  <integer>1</integer>
+
+  <key>StartCalendarInterval</key>
+  <dict>
+    <key>Weekday</key>
+    <integer>3</integer>
+    <key>Hour</key>
+    <integer>0</integer>
+  </dict>
+</dict>
+</plist>

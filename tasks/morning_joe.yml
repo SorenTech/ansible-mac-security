@@ -1,0 +1,9 @@
+- name: Move HostsUpdater.Plist to Library/LaunchDaemons
+  fetch:
+    src: "files/local.baseline.morningjoe.plist"
+    dest: "/Library/LaunchDaemons/local.baseline.morningjoe.plist"
+  
+- name: Enable HostsUpdater.Plist Launch Daemon
+  community.general.launchd:
+    name: local.baseline.morningjoe
+    state: started
