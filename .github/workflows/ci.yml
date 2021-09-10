@@ -48,13 +48,6 @@ jobs:
         with:
           path: ansible-mac-security
 
-#      - name: Uninstall GitHub Actions' built-in Homebrew.
-#        run: tests/uninstall-homebrew.sh
-
-      - name: Uninstall GitHub Actions' built-in browser installs.
-        run: |
-          sudo rm -rf /Applications/Firefox.app
-          sudo rm -rf /Applications/Google\ Chrome.app
       - name: Install test dependencies.
         run: sudo pip3 install ansible-core
 
@@ -65,7 +58,7 @@ jobs:
         run: ansible-playbook main.yml --syntax-check
 
       - name: Test the playbook.
-        run: ansible-playbook main.yml
+        run: ansible-playbook main.yml --skip-tags "homebrew"
         env:
           ANSIBLE_FORCE_COLOR: '1'
 
