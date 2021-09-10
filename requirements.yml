@@ -1,5 +1,5 @@
 ---
 - collections:
   name: geerlingguy.mac
-- roles:
-  name: geerlingguy.mac.homebrew
+  name: community.general
+

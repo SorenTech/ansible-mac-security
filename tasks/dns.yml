@@ -2,15 +2,31 @@
 - name: Clone Stephen Black Hosts
   git:
     repo: 'https://github.com/StevenBlack/hosts.git'
-    dest: ~/.hosts
+    dest: /Users/Share/hosts
     depth: 1
     force: yes
 
 - name: Install Hosts Updater Dependencies
-  shell: cd ~/.hosts && pip3 install --user -r requirements.txt
+  shell: cd /Users/Share/hosts && pip3 install --user -r requirements.txt
 
 - name: Generate Hosts File
-  shell: cd ~/.hosts && python3 updateHostsFile.py --auto --replace --flush-dns-cache --extensions fakenews gambling 
+  shell: cd /Users/Share/hosts && python3 updateHostsFile.py --auto --replace --flush-dns-cache --extensions fakenews gambling porn
+  
+- name: Move HostsUpdater Job to usr/local/bin
+  fetch:
+    src: "files/bin/hosts_updater.sh"
+    dest: "/urs/local/bin/hosts_updater.sh"
+    flat: yes
+    
+- name: Move HostsUpdater.Plist to Library/LaunchDaemons
+  fetch:
+    src: "files/local.baseline.hostsupdater.plist"
+    dest: "/Library/LaunchDaemons/local.baseline.hostsupdater.plist"
+  
+- name: Enable HostsUpdater.Plist Launch Daemon
+  communicy.general.launchd:
+    name: local.baseline.hostsupdater
+    state: started
 
 - name: configure dns packages
   fetch:
