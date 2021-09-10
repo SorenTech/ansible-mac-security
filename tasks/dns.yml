@@ -5,19 +5,23 @@
 
 - name: Install Hosts Updater Dependencies
   shell: cd /usr/local/hosts && pip3 install --user -r requirements.txt
+  become: yes
 
 - name: Generate Hosts File
   shell: cd /usr/local/hosts && python3 updateHostsFile.py --auto --replace --flush-dns-cache --extensions fakenews gambling porn
+  become: yes
     
 - name: Move HostsUpdater.Plist to Library/LaunchDaemons
   fetch:
     src: "files/local.baseline.hostsupdater.plist"
     dest: "/Library/LaunchDaemons/local.baseline.hostsupdater.plist"
+    become: yes
   
 - name: Enable HostsUpdater.Plist Launch Daemon
   community.general.launchd:
     name: local.baseline.hostsupdater
     state: started
+    become: yes
 
 - name: configure dns packages
   fetch:
