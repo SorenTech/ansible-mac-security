@@ -1,5 +1,5 @@
 - name: Set baseline security settings
-  osx_defaults:
+  community.general.osx_defaults:
     domain: "{{ item.domain }}"
     key: "{{ item.key }}"
     type: "{{ item.type|default('bool') }}"
@@ -26,5 +26,8 @@
     - { domain: com.apple.commerce, key: AutoUpdateRestartRequired }
     - { domain: com.apple.finder, key: EmptyTrashSecurely }
 
-
+- name: Configure Firefox Policies
+  fetch:
+    src: "files/firefox.policies.json"
+    dest: "/Applications/Firefox.app/Contents/Resources/distribution/policies.json"
 
