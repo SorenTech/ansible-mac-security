@@ -5,8 +5,16 @@
   <key>Label</key>
   <string>local.baseline.morningjoe.plist</string>
 
-  <key>Program</key>
-  <string>/usr/local/bin/morning_joe.sh</string>
+  <key>ProgramArguments</key>
+  <dict>
+    <string>brew</string>
+    <string>upgrade</string>
+  </dict>
+  
+  <key>StandardOutputPath</key>
+  <string>/usr/local/logs/morningjoe.log</string>
+  <key>StandardErrorPath</key>
+  <string>/usr/local/logs/morningjoe.error</string>
 
   <key>Nice</key>
   <integer>1</integer>

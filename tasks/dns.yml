@@ -2,21 +2,15 @@
 - name: Clone Stephen Black Hosts
   git:
     repo: 'https://github.com/StevenBlack/hosts.git'
-    dest: /Users/Share/hosts
+    dest: /usr/local/hosts
     depth: 1
     force: yes
 
 - name: Install Hosts Updater Dependencies
-  shell: cd /Users/Share/hosts && pip3 install --user -r requirements.txt
+  shell: cd /usr/local/hosts && pip3 install --user -r requirements.txt
 
 - name: Generate Hosts File
-  shell: cd /Users/Share/hosts && python3 updateHostsFile.py --auto --replace --flush-dns-cache --extensions fakenews gambling porn
-  
-- name: Move HostsUpdater Job to usr/local/bin
-  fetch:
-    src: "files/bin/hosts_updater.sh"
-    dest: "/urs/local/bin/hosts_updater.sh"
-    flat: yes
+  shell: cd /usr/local/hosts && python3 updateHostsFile.py --auto --replace --flush-dns-cache --extensions fakenews gambling porn
     
 - name: Move HostsUpdater.Plist to Library/LaunchDaemons
   fetch:

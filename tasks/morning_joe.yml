@@ -1,9 +1,3 @@
-- name: Move Morning_Joe Job to usr/local/bin
-  fetch:
-    src: "files/bin/morning_joe.sh"
-    dest: "/urs/local/bin/morning_joe.sh"
-    flat: yes
-    
 - name: Move HostsUpdater.Plist to Library/LaunchDaemons
   fetch:
     src: "files/local.baseline.morningjoe.plist"

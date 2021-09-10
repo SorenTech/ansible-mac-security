@@ -4,10 +4,28 @@
 <dict>
   <key>Label</key>
   <string>local.baseline.hostsupdater.plist</string>
+  
+  <key>WorkingDirectory</key>
+  <string>/usr/local/hosts</string>
 
-  <key>Program</key>
-  <string>/usr/local/bin/hosts_updater.sh</string>
-
+  <key>ProgramArguments</key>
+  <dict>
+    <string>python3</string>
+    <string>updateHostsFile.py</string>
+    <string>--auto</string>
+    <string>--prelace</string>
+    <string>--flush-dns-cache</string>
+    <string>--extensions</string>
+    <string>fakenews</string>
+    <string>gambling</string>
+    <string>porn</string>
+  </dic>
+  
+  <key>StandareOutPath</key>
+  <string>/usr/local/logs/hostsupdater.log</string>
+  <key>StandardErrorPath</key>
+  <string>/usr/local/logs/hostsupdater.error</string>
+  
   <key>Nice</key>
   <integer>1</integer>
 
