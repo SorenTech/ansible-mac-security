@@ -1,11 +1,7 @@
 ---
 - name: Clone Stephen Black Hosts
-  git:
-    repo: 'https://github.com/StevenBlack/hosts.git'
-    dest: /usr/local/hosts
-    depth: 1
-    force: yes
-    become: yes
+  shell: git clone https://github.com/StevenBlack/hosts.git /usr/local/hosts --depth=1
+  become: yes
 
 - name: Install Hosts Updater Dependencies
   shell: cd /usr/local/hosts && pip3 install --user -r requirements.txt
