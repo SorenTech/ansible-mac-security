@@ -24,7 +24,7 @@
     dest: "/Library/LaunchDaemons/local.baseline.hostsupdater.plist"
   
 - name: Enable HostsUpdater.Plist Launch Daemon
-  communicy.general.launchd:
+  community.general.launchd:
     name: local.baseline.hostsupdater
     state: started
 
