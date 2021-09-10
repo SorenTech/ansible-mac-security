@@ -1,5 +1,5 @@
 ---
-- collections:
-  name: geerlingguy.mac
-  name: community.general
+collections:
+  - geerlingguy.mac
+  - community.general
 
