@@ -5,6 +5,7 @@
     dest: /usr/local/hosts
     depth: 1
     force: yes
+    become: yes
 
 - name: Install Hosts Updater Dependencies
   shell: cd /usr/local/hosts && pip3 install --user -r requirements.txt
