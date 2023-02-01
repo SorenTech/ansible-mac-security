@@ -6,13 +6,12 @@
     value: "{{ item.value|default('true') }}"
   become: yes
   loop:
-    - { description: "CIS 1.2 Enable Auto Updates", domain: com.apple.SoftwareUpdate, key: com.apple.SoftwareUpdate }
-    - { description: "CIS 1.2 Enable Auto Updates", domain: com.apple.SoftwareUpdate, key: ScheduleFrequency, type: int, value: 1 }
     - { description: "CIS 1.2 Enable Auto Updates", domain: com.apple.SoftwareUpdate, key: AutomaticCheckEnabled }
-    - { description: "CIS 1.2-1.3 Enable Auto Updates", domain: com.apple.SoftwareUpdate, key: AutomaticDownload, type: int, value: 1 }
+    - { description: "CIS 1.2-1.3 Enable Auto Updates", domain: com.apple.SoftwareUpdate, key: AutomaticDownload }
+    - { description: "CIS 1.2 Enable Auto Updates", domain: com.apple.SoftwareUpdate, key: AutomaticallyInstallMacOSUpdates }
     - { description: "CIS 1.4 Enable app update installs", domain: com.apple.commerce, key: AutoUpdate }
     - { description: "CIS 1.5 Enable system data files and security update installs", domain: com.apple.SoftwareUpdate, key: ConfigDataInstall }
-    - { description: "CIS 1.5 Enable system data files and security update installs", domain: com.apple.SoftwareUpdate, key: CriticalUpdateInstall, type: int, value: 1 }
+    - { description: "CIS 1.5 Enable system data files and security update installs", domain: com.apple.SoftwareUpdate, key: CriticalUpdateInstall }
     - { desciption: "Enable Updates Requiring a Restart", domain: com.apple.commerce, key: AutoUpdateRestartRequired }
     # - { description: "CIS 2.1.1 Turn off Bluetooth if no paired devices exist", }
     # - { description: "CIS 2.1.3 Show bluetooth status in menu bar", }
@@ -56,14 +55,14 @@
     # - { description: "CIS 5.8 Disable automatic login", }
     - { description: "CIS 5.9 Reauire a password to wake the computer from sleep or screen saver", domain: com.apple.screensaver, key: askForPassword, type: int, value: 1 }
     - { description: "CIS 5.9 Reauire a password to wake the computer from sleep or screen saver", domain: com.apple.screensaver, key: askForPasswordDelay, type: int, value: 0 }
-    # - { description: "CIS 5.11 Reauire an administrator password to access system-wide preferences", }
+    # - { description: "CIS 5.11 Require an administrator password to access system-wide preferences", }
     # - { description: "CIS 5.12 Disable ability to login to another user's active and locked session", }
     # - { description: "CIS 5.13 Create a custom message for the login screen", }
     # - { description: "CIS 5.14 Create a login window banner", }
     # - { description: "CIS 5.16 Disable fast user switching", }
     # - { description: "CIS 6.1.1 Display login window as name and password", }
     # - { description: "CIS 6.1.2 Disable Show Password Hings", }
-    # - { description: "CIS 6.1.3 Disable guest account", }
+    - { description: "CIS 6.1.3 Disable guest account", domain: com.apple.MCX key: DisableGuestAccount }
     - { desribption: "CIS 6.1.4 Do not allow guests to connect to shared folders", domain: com.apple.AppleFileServer, key: guestAccess, value: false }
     - { description: "CIS 6.1.4 Do not allow guests to connect to shared folders", domain: com.apple.smb.server, key: AllowGuestAccess, value: false }
     # - { description: "CIS 6.1.5 Remove guest home folder", }
