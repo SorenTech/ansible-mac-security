@@ -55,23 +55,27 @@
     # - { description: "CIS 5.8 Disable automatic login", }
     - { description: "CIS 5.9 Reauire a password to wake the computer from sleep or screen saver", domain: com.apple.screensaver, key: askForPassword, type: int, value: 1 }
     - { description: "CIS 5.9 Reauire a password to wake the computer from sleep or screen saver", domain: com.apple.screensaver, key: askForPasswordDelay, type: int, value: 0 }
-    # - { 
-    - { domain: com.apple.finder, key: AppleShowAllFiles }
-    - { domain: NSGlobalDomain, key: AppleShowAllExtensions }
-    
-    - { domain: /Library/Preferences/SystemConfiguration/com.apple.captive.control.plist, key: Active, value: false }
-    - { 
-    - { domain: com.apple.Safari, key: UniversalSearchEnabled, value: false }
-    - { domain: com.apple.Safari, key: SuppressSearchSuggestions }
-    - { domain: com.apple.Safari, key: AutoOpenSafeDownloads, value: false }
-    - { domain: com.apple.Safari, key: WarnAboutFraudulentWebsites }
-    - { domain: com.apple.Safari, key: SendDoNotTrackHTTPHeader }
-
-    
-    
-    - {  }
-    
-
+    # - { derscription: "CIS 5.10 Ensure system is set to hibernate and destroy FileVault key", }
+    # - { description: "CIS 5.11 Reauire an administrator password to access system-wide preferences", }
+    # - { description: "CIS 5.12 Disable ability to login to another user's active and locked session", }
+    # - { description: "CIS 5.13 Create a custom message for the login screen", }
+    # - { description: "CIS 5.14 Create a login window banner", }
+    # - { description: "CIS 5.16 Disable fast user switching", }
+    # - { description: "CIS 5.19 Enable System Integrity Protection", }
+    # - { description: "CIS 6.1.1 Display login window as name and password", }
+    # - { description: "CIS 6.1.2 Disable Show Password Hings", }
+    # - { description: "CIS 6.1.3 Disable guest account", }
+    - { desribption: "CIS 6.1.4 Do not allow guests to connect to shared folders", domain: com.apple.AppleFileServer, key: guestAccess, value: false }
+    - { description: "CIS 6.1.4 Do not allow guests to connect to shared folders", domain: com.apple.smb.server, key: AllowGuestAccess, value: false }
+    # - { description: "CIS 6.1.5 Remove guest home folder", }
+    - { description: "CIS 6.2 Turn on filename extensions", domain: NSGlobalDomain, key: AppleShowAllExtensions }    
+    - { description: "Show hidden files", domain: com.apple.finder, key: AppleShowAllFiles }
+    - { description: "CIS 6.3 Disable automatic run of safe files in Safari", domain: com.apple.Safari, key: AutoOpenSafeDownloads, value: false }
+    - { description: "Prevent captive portals", domain: /Library/Preferences/SystemConfiguration/com.apple.captive.control.plist, key: Active, value: false }
+    - { description: "Safari: disable universal search", domain: com.apple.Safari, key: UniversalSearchEnabled, value: false }
+    - { description: "Safari: supress search suggestions", domain: com.apple.Safari, key: SuppressSearchSuggestions }
+    - { description: "Safari: warn about fraudulant websites", domain: com.apple.Safari, key: WarnAboutFraudulentWebsites }
+    - { description: "Safari: Send Do Not Track header", domain: com.apple.Safari, key: SendDoNotTrackHTTPHeader }
 
 - name: Configure Firefox Policies
   fetch:
