@@ -90,8 +90,19 @@
 
 # TODO Restart Firewall, see https://github.com/drduh/macOS-Security-and-Privacy-Guide#application-layer-firewall
 
-# - name: Load and Unload Launch Daemons
-  
+- name: Unload Sharing Launch Daemons
+  community.general.launchd:
+    name: "{{ item.name }}"
+    state: unloaded
+  with_items:
+    - { description: "CIS 2.4.6 Disable DVD or CD Sharing", name: /System/Library/LaunchDaemons/com.apple.ODSAgent.plist }
+    - { description: "CIS 2.4.8 Disable File Sharing", name: /System/Library/LaunchDaemons/com.apple.AppleFileServer.plist }
+    - { description: "CIS 2.4.8 Disable File Sharing", name: /System/Library/LaunchDaemons/com.apple.smbd.plist }
+    
+- name: CIS 3.1 Enable Security Auditing
+  community.general.launchd:
+    name: /System/Library/LaunchDaemons/com.apple.auditd.plist
+    state: reloaded
 
 # TODO CIS 5.19 Verify SIP Is Enabled, see https://github.com/drduh/macOS-Security-and-Privacy-Guide#system-integrity-protection
 
