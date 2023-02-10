@@ -53,11 +53,11 @@
 - name: change Wi-Fi DNS servers
   shell: networksetup -setdnsservers "Wi-Fi" 127.0.0.1
   become: True
-  when: wifi_active
+  when: wifi_active.rc == 0
   ignore_errors: true
 
 - name: change Ethernet DNS servers
   shell: networksetup -setdnsservers "Ethernet" 127.0.0.1
   become: True
-  when: ethernet_active
+  when: ethernet_active.rc == 0
   ignore_errors: true
