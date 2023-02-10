@@ -1,6 +1,8 @@
 ---
 admin_user: "{{ ansible_user_id }}"
 
+login_message: "This computer is configured and managed by Soren LLC. Contact us at https://soren.tech"
+
 # homebrew_group: brew
 
 homebrew_taps:
