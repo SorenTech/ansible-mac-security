@@ -94,7 +94,7 @@
   community.general.launchd:
     name: "{{ item.name }}"
     state: unloaded
-  with_items:
+  loop:
     - { description: "CIS 2.4.6 Disable DVD or CD Sharing", name: /System/Library/LaunchDaemons/com.apple.ODSAgent.plist }
     - { description: "CIS 2.4.8 Disable File Sharing", name: /System/Library/LaunchDaemons/com.apple.AppleFileServer.plist }
     - { description: "CIS 2.4.8 Disable File Sharing", name: /System/Library/LaunchDaemons/com.apple.smbd.plist }
