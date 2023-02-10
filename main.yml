@@ -20,4 +20,4 @@
 
   tasks:
     - include_tasks: tasks/dns.yml
-    - include_tasks: tasks/morning_joe.yml
+    # - include_tasks: tasks/morning_joe.yml
