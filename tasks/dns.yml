@@ -35,6 +35,7 @@
 - name: start homebrew services
   shell: "brew services start {{ item }}"
   become: True
+  tags: ['homebrew']
   loop:
     - dnscrypt-proxy
     - dnsmasq
