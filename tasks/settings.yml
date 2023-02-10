@@ -36,7 +36,7 @@
     - { description: "CIS 2.5.3 Enable Firewall", domain: com.apple.alf, key: globalstate, key: int, value: 2 }
     # - { description: "CIS 2.5.4 Enable Firewall Stealth Mode", domain: com.apple.security.firewall, key: EnableStealthMode, value: "{{ firewall_stealth_mode | default('false') }}" }
     - { description: "Disable allow signed built-in applications automatically", domain: com.apple.alf, key: AllowSigned, value: "{{ firewall_allow_signed_built_in | default('false') }}" }
-    - { description: "Disable allow signed downloaded applications automatically", domain: com.apple.alf, key: AllowSignedApp, value: {{ firewall_allow_signed_downloaded | default('false') }} }
+    - { description: "Disable allow signed downloaded applications automatically", domain: com.apple.alf, key: AllowSignedApp, value: "{{ firewall_allow_signed_downloaded | default('false') }}" }
     # - { description: "CIS 2.5.5 Disable sending diagnostic and usage data to Apple", domain: com.apple.applicationaccess, key: allowDiagnosticSubmission, value: {{ allow_ diagnostic_submissions | default('true') }} }
     - { description: "CIS 2.5.6 Limit Ad tracking", domain: com.apple.AdLib, key: forceLimitAdTracking }
     # - { description: "CIS 2.6.2 Disallow iCloud Keychain", domain: com.apple.applicationaccess, key: allowCloudKeychainSync, value: {{ cloud_keychain_sync | default('true') }} }
