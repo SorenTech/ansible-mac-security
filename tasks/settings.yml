@@ -1,3 +1,17 @@
+- name: CIS 3.1 Enable Security Auditing
+  community.general.launchd:
+    name: com.apple.auditd
+    state: reloaded
+    
+- name: Unload Banned Launch Daemons
+  community.general.launchd:
+    name: "{{ item.name }}"
+    state: unloaded
+  loop:
+    - { description: "CIS 2.4.6 Disable DVD or CD Sharing", name: com.apple.ODSAgent }
+    # - { description: "CIS 2.4.8 Disable File Sharing", name: com.apple.AppleFileServer }
+    - { description: "CIS 2.4.8 Disable File Sharing", name: com.apple.smbd }
+
 - name: Set baseline security settings
   community.general.osx_defaults:
     domain: "{{ item.domain }}"
@@ -24,9 +38,7 @@
     # - { description: "CIS 2.4.3 Disable Screen Sharing", }
     # - { description: "CIS 2.4.4 Disable Printer Sharing", }
     # - { description: "CIS 2.4.5 Disable Remote Login," }
-    # - { description: "CIS 2.4.6 Disable DVD or CD Sharing", }
     # - { description: "CIS 2.4.7 Disable Bluetooth Sharing", }
-    # - { description: "CIS 2.4.8 Disable File Sharing", }
     # - { description: "CIS 2.4.9 Disable Remote Management", }
     # - { description: "CIS 2.4.10 Disable Content Caching", domain: com.apple.applicationaccess, key: allowContentCaching, value: {{ allow_content_caching | default('false') }} }
     # - { description: "CIS 2.4.11 Disable Media Sharing", domain: com.apple.amp.mediasharingd, key: home-sharing-enabled, type: int, value: {{ allow_home_media_sharing | default('1') }} }
@@ -47,7 +59,6 @@
     - { description: "CIS 2.9 Enable secure keyboard entry in terminal.app", domain: com.apple.Terminal, key: SecureKeyboardEntry }
     - { description: "CIS 2.10 Securely empty trash", domain: com.apple.finder, key: EmptyTrashSecurely }   
     # - { description: "CIS 2.12 Disable wake for network access and power nap", }
-    # - { description: "CIS 3.1 Enable security auditing", }
     # - { description: "CIS 3.3 Ensure security auditing retention", }
     # - { description: "CIS 3.4 Control access to audit records", }
     # - { description: "CIS 3.5 Retain install.log for 365 days", }
@@ -90,19 +101,6 @@
 
 # TODO Restart Firewall, see https://github.com/drduh/macOS-Security-and-Privacy-Guide#application-layer-firewall
 
-- name: Unload Sharing Launch Daemons
-  community.general.launchd:
-    name: "{{ item.name }}"
-    state: unloaded
-  loop:
-    - { description: "CIS 2.4.6 Disable DVD or CD Sharing", name: com.apple.ODSAgent }
-    - { description: "CIS 2.4.8 Disable File Sharing", name: com.apple.AppleFileServer }
-    - { description: "CIS 2.4.8 Disable File Sharing", name: com.apple.smbd }
-    
-- name: CIS 3.1 Enable Security Auditing
-  community.general.launchd:
-    name: com.apple.auditd
-    state: reloaded
 
 # TODO CIS 5.19 Verify SIP Is Enabled, see https://github.com/drduh/macOS-Security-and-Privacy-Guide#system-integrity-protection
 
