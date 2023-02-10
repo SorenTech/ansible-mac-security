@@ -29,8 +29,8 @@
     # - { description: "CIS 2.4.8 Disable File Sharing", }
     # - { description: "CIS 2.4.9 Disable Remote Management", }
     # - { description: "CIS 2.4.10 Disable Content Caching", domain: com.apple.applicationaccess, key: allowContentCaching, value: {{ allow_content_caching | default('false') }} }
-    - { description: "CIS 2.4.11 Disable Media Sharing", domain: com.apple.amp.mediasharingd, key: home-sharing-enabled, type: int, value: {{ allow_home_media_sharing | default(1) }} }
-    - { description: "CIS 2.4.11 Disable Media Sharing", domain: com.apple.amp.mediasharingd, key: public-sharing-enabled, type: int, value: {{ allow_public_media_sharing | default(0) }} } 
+    - { description: "CIS 2.4.11 Disable Media Sharing", domain: com.apple.amp.mediasharingd, key: home-sharing-enabled, type: int, value: {{ allow_home_media_sharing | default('1') }} }
+    - { description: "CIS 2.4.11 Disable Media Sharing", domain: com.apple.amp.mediasharingd, key: public-sharing-enabled, type: int, value: {{ allow_public_media_sharing | default('0') }} } 
     # - { description: "CIS 2.5.2 Enable Gatekeeper", domain: com.apple.systempolicy.control, key: EnableAssessment }
     # - { description: "CIS 2.5.2 Gatekeeper - Allow Identified Developers", domain: com.apple.systempolicy.control, key: AllowIdentifiedDevelopers, value: {{ gatekeeper_allow_identified_developers | default('true') }} }
     - { description: "CIS 2.5.3 Enable Firewall", domain: com.apple.alf, key: globalstate, key: int, value: 2 }
