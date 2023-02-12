@@ -88,7 +88,7 @@
   community.general.osx_defaults:
     domain: com.apple.loginwindow
     key: autoLoginUser
-    sate: absent
+    state: absent
 
 # TODO Restart Firewall, see https://github.com/drduh/macOS-Security-and-Privacy-Guide#application-layer-firewall
 
