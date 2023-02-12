@@ -115,9 +115,9 @@
     - { description: "CIS 5.10 Ensure system is set to hibernate and destroy fievalut key", cmd: "pmset -a highstandbythreshold 90" }
     # May require additional steps first # - { description: "CIS 5.10 Ensure system is set to hibernate and destroy fievalut key", cmd: "pmset -a destroyfvkeyonstandby 1" }
     - { description: "CIS 5.11 Require an administrator password to access system-wide preferences", cmd: "security authorizationdb read system.preferences > /tmp/system.preferences.plist" }
-    - { description: "CIS 5.11 Require an administrator password to access system-wide preferences", cmd: "/usr/libexec/PlistBuddy -c "Set :shared false" /tmp/system.preferences.plist" }
+    - { description: "CIS 5.11 Require an administrator password to access system-wide preferences", cmd: '/usr/libexec/PlistBuddy -c "Set :shared false" /tmp/system.preferences.plist' }
     - { description: "CIS 5.11 Require an administrator password to access system-wide preferences", cmd: "security authorizationdb write system.preferences < /tmp/system.preferences.plist" }
-    - { description: "CIS 5.12 Disable ability to login to another user's active and locked session", cmd: "/usr/bin/security authorizationdb write system.login.screensaver "use-login-window-ui" }
+    - { description: "CIS 5.12 Disable ability to login to another user's active and locked session", cmd: '/usr/bin/security authorizationdb write system.login.screensaver "use-login-window-ui"' }
     - { description: "CIS 6.1.5 Remove guest home folder", cmd: "rm -rf /Users/Guest" }
 
 # TODO CIS 5.19 Verify SIP Is Enabled, see https://github.com/drduh/macOS-Security-and-Privacy-Guide#system-integrity-protection
