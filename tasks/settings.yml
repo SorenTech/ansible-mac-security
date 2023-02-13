@@ -1,3 +1,36 @@
+- name: CIS 3.1 Enable Security Auditing
+  community.general.launchd:
+    name: com.apple.auditd
+    state: reloaded
+    
+- name: CIS 3.2-4 AuditD Configuration
+  ansible.builtin.template:
+    src: files/audit_control.j2
+    dest: /etc/security/audit_control
+    backup: true
+    owner: root
+    group: wheel
+    mode: 400
+  become: yes
+    
+- name: CIS 3.4 Control access to audit records
+  ansible.builtin.file:
+    path: /var/audit
+    recurse: true
+    owner: root 
+    group: wheel
+    mode: 440
+  become: yes
+    
+- name: Unload Banned Launch Daemons
+  community.general.launchd:
+    name: "{{ item.name }}"
+    state: unloaded
+  loop:
+    - { description: "CIS 2.4.6 Disable DVD or CD Sharing", name: com.apple.ODSAgent }
+    # Incorrect Path # - { description: "CIS 2.4.8 Disable File Sharing", name: com.apple.AppleFileServer }
+    - { description: "CIS 2.4.8 Disable File Sharing", name: com.apple.smbd }
+
 - name: Set baseline security settings
   community.general.osx_defaults:
     domain: "{{ item.domain }}"
@@ -6,28 +39,106 @@
     value: "{{ item.value|default('true') }}"
   become: yes
   loop:
-    - { domain: com.apple.screensaver, key: askForPassword, type: int, value: 1 }
-    - { domain: com.apple.screensaver, key: askForPasswordDelay, type: int, value: 0 }
-    - { domain: com.apple.finder, key: AppleShowAllFiles }
-    - { domain: NSGlobalDomain, key: AppleShowAllExtensions }
-    - { domain: /Library/Preferences/com.apple.alf, key: globalstate, type: int, value: 1 }
-    - { domain: /Library/Preferences/SystemConfiguration/com.apple.captive.control.plist, key: Active, value: false }
-    - { domain: NSGlobalDomain, key: NSDocumentSaveNewDocumentsToCloud, value: false }
-    - { domain: com.apple.Safari, key: UniversalSearchEnabled, value: false }
-    - { domain: com.apple.Safari, key: SuppressSearchSuggestions }
-    - { domain: com.apple.Safari, key: AutoOpenSafeDownloads, value: false }
-    - { domain: com.apple.Safari, key: WarnAboutFraudulentWebsites }
-    - { domain: com.apple.Safari, key: SendDoNotTrackHTTPHeader }
-    - { domain: com.apple.SoftwareUpdate, key: com.apple.SoftwareUpdate }
-    - { domain: com.apple.SoftwareUpdate, key: ScheduleFrequency, type: int, value: 1 }
-    - { domain: com.apple.SoftwareUpdate, key: AutomaticDownload, type: int, value: 1 }
-    - { domain: com.apple.SoftwareUpdate, key: CriticalUpdateInstall, type: int, value: 1 }
-    - { domain: com.apple.commerce, key: AutoUpdate }
-    - { domain: com.apple.commerce, key: AutoUpdateRestartRequired }
-    - { domain: com.apple.finder, key: EmptyTrashSecurely }
+    - { description: "CIS 1.2 Enable Auto Updates", domain: com.apple.SoftwareUpdate, key: AutomaticCheckEnabled, type: int, value: 1 }
+    - { description: "CIS 1.2-1.3 Enable Auto Updates", domain: com.apple.SoftwareUpdate, key: AutomaticDownload, type: int, value: 1 }
+    - { description: "CIS 1.2 Enable Auto Updates", domain: com.apple.SoftwareUpdate, key: AutomaticallyInstallMacOSUpdates }
+    - { description: "CIS 1.4 Enable app update installs", domain: com.apple.commerce, key: AutoUpdate }
+    - { description: "CIS 1.5 Enable system data files and security update installs", domain: com.apple.SoftwareUpdate, key: ConfigDataInstall }
+    - { description: "CIS 1.5 Enable system data files and security update installs", domain: com.apple.SoftwareUpdate, key: CriticalUpdateInstall, type: int, value: 1 }
+    - { desciption: "Enable Updates Requiring a Restart", domain: com.apple.commerce, key: AutoUpdateRestartRequired }
+    # For Future Implementation # - { description: "CIS 2.1.1 Turn off Bluetooth if no paired devices exist", }
+    # For Future Implementation # - { description: "CIS 2.1.3 Show bluetooth status in menu bar", }
+    # For Future Implementation # - { description: "CIS 2.2.1 Set time and date automatically", }
+    - { description: "CIS 2.3.1 Set inactivity interval for screen saver", domain: com.apple.screensaver, key: idleTime, type: int, value: 300 }
+    - { description: "Set autologout delay", domain: NSGlobalDomain, key: com.apple.autologout.AutoLogOutDelay, type: int, value: 900 }
+    # - { description: "CIS 2.3.2-3 Set a screen corner to start screen saver", }
+    # For Future Implementation # - { description: "CIS 2.4.1 Disable Remote Apple Events", }
+    # For Future Implementation # - { description: "CIS 2.4.2 Disable Internet Sharing", }
+    # For Future Implementation # - { description: "CIS 2.4.3 Disable Screen Sharing", }
+    # For Future Implementation # - { description: "CIS 2.4.4 Disable Printer Sharing", }
+    # For Future Implementation # - { description: "CIS 2.4.7 Disable Bluetooth Sharing", }
+    # Needs additional research # - { description: "CIS 2.4.9 Disable Remote Management", }
+    # May not apply to personal devices # - { description: "CIS 2.4.11 Disable Media Sharing", domain: com.apple.amp.mediasharingd, key: home-sharing-enabled, type: int, value: {{ allow_home_media_sharing | default('0') }} }
+    # May not apply to personal devices # - { description: "CIS 2.4.11 Disable Media Sharing", domain: com.apple.amp.mediasharingd, key: public-sharing-enabled, type: int, value: {{ allow_public_media_sharing | default('0') }} } 
+    - { description: "CIS 2.5.3 Enable Firewall", domain: com.apple.alf, key: globalstate, type: int, value: 1 }
+    - { description: "CIS 2.5.4 Enable Firewall Stealth Mode", domain: com.alf, key: stealthenabled, value: "{{ firewall_stealth_mode | default('0') }}" }
+    - { description: "Disable allow signed built-in applications automatically", domain: com.apple.alf, key: allowsignedenabled, type: int, value: "{{ firewall_allow_signed_built_in | default('0') }}" }
+    - { description: "Disable allow signed downloaded applications automatically", domain: com.apple.alf, key: allowdownloadsignedenabled, type: int, value: "{{ firewall_allow_signed_downloaded | default('0') }}" }
+    # May not apply to personal devices # - { description: "CIS 2.5.5 Disable sending diagnostic and usage data to Apple", domain: com.apple.applicationaccess, key: allowDiagnosticSubmission, value: {{ allow_ diagnostic_submissions | default('true') }} }
+    - { description: "CIS 2.5.6 Limit Ad tracking", domain: com.apple.AdLib, key: forceLimitAdTracking }
+    # May not apply to personal devices # - { description: "CIS 2.6.2 Disallow iCloud Keychain", domain: com.apple.applicationaccess, key: allowCloudKeychainSync, value: {{ cloud_keychain_sync | default('true') }} }
+    # May not apply to personal devices # - { description: "CIS 2.6.3 Disallow iCloud Drive", }
+    # May not apply to personal devices # - { description: "CIS 2.6.4 Disallow iCloud Document Sync", domain: com.apple.applicationaccess, key: allowCloudDocumentSync, value: {{ allow_cloud_document_sync | default('true') }} }
+    # May not apply to personal devices # - { description: "CIS 2.6.5 Disallow iCloud Desktop Sync", domain: com.apple.applicationaccess, key: allowCloudDesktopAndDocuments, value: {{ allow_cloud_desktop_sync | default('true') }} }
+    - { description: "CIS 2.7.1 Time Machine Auto-Backup", domain: com.apple.TimeMachine, key: AutoBackup, type: int, value: 1 }
+    - { description: "CIS 2.9 Enable secure keyboard entry in terminal.app", domain: com.apple.Terminal, key: SecureKeyboardEntry }
+    - { description: "CIS 2.10 Securely empty trash", domain: com.apple.finder, key: EmptyTrashSecurely }   
+    # For Future Implementation # - { description: "CIS 2.12 Disable wake for network access and power nap", }
+    - { description: "CIS 3.6 Ensure firewall is configured to log", domain: com.apple.alf, key: loggingenabled, type: int, value: 1 }
+    - { description: "CIS 4.1 Disable Bonjour advertising service", domain: com.apple.mDNSResponder, key: NoMulticastAdvertisements }
+    # For Future Implementation # - { description: "CIS 4.2 Show WiFi status in menu bar", }
+    - { description: "CIS 4.4 Ensure http server is not running", domain: /System/Library/LaunchDaemons/org.apache.httpd, key: Disabled }  
+    - { description: "CIS 5.9 Require a password to wake the computer from sleep or screen saver", domain: com.apple.screensaver, key: askForPassword, type: int, value: 1 }
+    - { description: "CIS 5.9 Require a password to wake the computer from sleep or screen saver", domain: com.apple.screensaver, key: askForPasswordDelay, type: int, value: 0 }
+    - { description: "CIS 5.13 Create a custom message for the login screen", domain: com.apple.loginwindow, key: LoginwindowText, type: string, value: "{{ login_message }}" }
+    # For Future Implementation # - { description: "CIS 5.14 Create a login window banner", }
+    - { description: "CIS 5.16 Disable fast user switching", domain: NSGlobalDomain, key: MultipleSessionEnabled, value: false }
+    - { description: "CIS 5.20 Enable Library Validation", domain: com.apple.security.libraryvalidation, key: DisableLibraryValidation, value: false }
+    - { description: "CIS 6.1.1 Display login window as name and password", domain: com.apple.loginwindow, key: SHOWFULLNAME }
+    - { description: "CIS 6.1.2 Disable Show Password Hints", domain: com.apple.loginwindow, key: RetriesUntilHint, type: int, value: 0 }
+    - { description: "CIS 6.1.3 Disable guest account", domain: com.apple.MCX, key: DisableGuestAccount }
+    - { description: "CIS 6.1.3 Disable guest account", domain: com.apple.loginwindow, key: GuestEnabled, value: false }
+    - { desribption: "CIS 6.1.4 Do not allow guests to connect to shared folders", domain: com.apple.AppleFileServer, key: guestAccess, value: false }
+    - { description: "CIS 6.1.4 Do not allow guests to connect to shared folders", domain: com.apple.smb.server, key: AllowGuestAccess, value: false }
+    - { description: "CIS 6.2 Turn on filename extensions", domain: NSGlobalDomain, key: AppleShowAllExtensions }    
+    - { description: "Show hidden files", domain: com.apple.finder, key: AppleShowAllFiles }
+    - { description: "CIS 6.3 Disable automatic run of safe files in Safari", domain: com.apple.Safari, key: AutoOpenSafeDownloads, value: false }
+    - { description: "Prevent captive portals", domain: com.apple.captive.control.plist, key: Active, value: false }
+    - { description: "Safari: disable universal search", domain: com.apple.Safari, key: UniversalSearchEnabled, value: false }
+    - { description: "Safari: supress search suggestions", domain: com.apple.Safari, key: SuppressSearchSuggestions }
+    - { description: "Safari: warn about fraudulant websites", domain: com.apple.Safari, key: WarnAboutFraudulentWebsites }
+    - { description: "Safari: Send Do Not Track header", domain: com.apple.Safari, key: SendDoNotTrackHTTPHeader }
+    
+- name: CIS 5.8 Disable Automatic Login
+  community.general.osx_defaults:
+    domain: com.apple.loginwindow
+    key: autoLoginUser
+    state: absent
 
-- name: Configure Firefox Policies
-  fetch:
-    src: "files/firefox.policies.json"
-    dest: "/Applications/Firefox.app/Contents/Resources/distribution/policies.json"
+# - name: Restart firewall after making config changes
+#   ansible.builtin.shell:
+#     cmd: pkill -HUP socketfilterfw
+#   become: yes 
 
+- name: CIS Remediation Shell Commands
+  ansible.builtin.shell:
+    cmd: "{{ item.cmd }}"
+  become: yes
+  ignore_errors: yes
+  loop:
+    - { description: "CIS 2.4.5 Disable Remote Login", cmd: "/usr/sbin/systemsetup -f -setremotelogin off" }
+    - { descrtiption: "CIS 2.4.9 Disable Remote Management", cmd: "/System/Library/CoreServices/RemoteManagement/ARDAgent.app/Contents/Resources/kickstart -deactivate -stop" }
+    - { description: "CIS 2.4.10 Disable Content Caching", cmd: "/usr/bin/AssetCacheManagerUtil deactivate" }
+    - { descritpion: "CIS 2.5.2 - Gatekeeper Enabled", cmd: "spctl --master-enable" }
+    # For future implementation # - { description: "CIS 2.5.2 - Set Gatekeeper to Allow Identified Developers", cmd: }
+    - { description: "CIS 4.5 - Ensure nfs Server is not Running", cmd: "nfsd disable" }
+    # - { description: "CIS 5.2.* Password Policies", cmd: }
+    # - { description: "CIS 5.2.1 Account Lockout Threshhold", domain: com.apple.mobiledevice.passwordpolicy, key: maxFailedAttempts, type: int, value: 11 }
+    # - { description: "CIS 5.2.2-6 Password Quality Requirements", domain: com.apple.mobiledevice.passwordpolicy, key: allowSimple, value: false }
+    # - { description: "CIS 5.2.2 Password Minimum Length", domain: com.apple.mobiledevice.passwordpolicy, key: minLength, type: int, value: 16 }
+    # - { description: "CIS 5.2.5 Password Requires Complex Character", domain: com.apple.mobiledevice.passwordpolicy, key: minComplexChars, type: int, value: 1 }
+    # Needs further research # - { description: "CIS 5.3 Reduce Sudo Timeout Period", cmd: "echo "Defaults timestamp_timeout=0" >> /etc/sudoers" }
+    # Needs further research # - { description: "5.7 Do Not Enable Root Account", cmd: "dscl . -create /Users/root UserShell /usr/bin/false" }
+    # May not be approprivate for a personal device # - { description: "CIS 5.10 Ensure system is set to hibernate and destroy fievalut key", cmd: "pmset -a standbydelayhigh 600" }
+    # May not be appropriate for a personal device # - { description: "CIS 5.10 Ensure system is set to hibernate and destroy fievalut key", cmd: "pmset -a standbydelaylow 600" }
+    # May not be appropriate for a personal device # - { description: "CIS 5.10 Ensure system is set to hibernate and destroy fievalut key", cmd: "pmset -a highstandbythreshold 90" }
+    # May require additional steps first # - { description: "CIS 5.10 Ensure system is set to hibernate and destroy fievalut key", cmd: "pmset -a destroyfvkeyonstandby 1" }
+    - { description: "CIS 5.11 Require an administrator password to access system-wide preferences", cmd: "security authorizationdb read system.preferences > /tmp/system.preferences.plist" }
+    - { description: "CIS 5.11 Require an administrator password to access system-wide preferences", cmd: '/usr/libexec/PlistBuddy -c "Set :shared false" /tmp/system.preferences.plist' }
+    - { description: "CIS 5.11 Require an administrator password to access system-wide preferences", cmd: "security authorizationdb write system.preferences < /tmp/system.preferences.plist" }
+    - { description: "CIS 5.12 Disable ability to login to another user's active and locked session", cmd: '/usr/bin/security authorizationdb write system.login.screensaver "use-login-window-ui"' }
+    - { description: "CIS 5.19 Verify SIP Is Enabled", cmd: "csrutil status" }
+    - { description: "CIS 6.1.5 Remove guest home folder", cmd: "rm -rf /Users/Guest" }
+     
+
+# TODO CIS 3.5 Retain install.log for 365 days"

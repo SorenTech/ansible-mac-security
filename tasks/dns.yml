@@ -11,17 +11,17 @@
   shell: cd /usr/local/hosts && python3 updateHostsFile.py --auto --replace --flush-dns-cache --extensions fakenews gambling porn
   become: yes
     
-- name: Move HostsUpdater.Plist to Library/LaunchDaemons
-  fetch:
-    src: "files/local.baseline.hostsupdater.plist"
-    dest: "/Library/LaunchDaemons/local.baseline.hostsupdater.plist"
-    become: yes
+# - name: Move HostsUpdater.Plist to Library/LaunchDaemons
+#  fetch:
+#    src: "files/local.baseline.hostsupdater.plist"
+#    dest: "/Library/LaunchDaemons/local.baseline.hostsupdater.plist"
+#    become: yes
   
-- name: Enable HostsUpdater.Plist Launch Daemon
-  community.general.launchd:
-    name: local.baseline.hostsupdater
-    state: started
-    become: yes
+# - name: Enable HostsUpdater.Plist Launch Daemon
+#  community.general.launchd:
+#    name: local.baseline.hostsupdater
+#    state: started
+#    become: yes
 
 - name: configure dns packages
   fetch:
@@ -35,6 +35,7 @@
 - name: start homebrew services
   shell: "brew services start {{ item }}"
   become: True
+  tags: ['homebrew']
   loop:
     - dnscrypt-proxy
     - dnsmasq
@@ -52,11 +53,11 @@
 - name: change Wi-Fi DNS servers
   shell: networksetup -setdnsservers "Wi-Fi" 127.0.0.1
   become: True
-  when: wifi_active
+  when: wifi_active.rc == 0
   ignore_errors: true
 
 - name: change Ethernet DNS servers
   shell: networksetup -setdnsservers "Ethernet" 127.0.0.1
   become: True
-  when: ethernet_active
+  when: ethernet_active.rc == 0
   ignore_errors: true
