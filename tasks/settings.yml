@@ -38,8 +38,7 @@
     # For Future Implementation # - { description: "CIS 2.4.3 Disable Screen Sharing", }
     # For Future Implementation # - { description: "CIS 2.4.4 Disable Printer Sharing", }
     # For Future Implementation # - { description: "CIS 2.4.7 Disable Bluetooth Sharing", }
-    # - { description: "CIS 2.4.9 Disable Remote Management", }
-    # - { description: "CIS 2.4.10 Disable Content Caching", domain: com.apple.applicationaccess, key: allowContentCaching, value: {{ allow_content_caching | default('false') }} }
+    # Needs additional research # - { description: "CIS 2.4.9 Disable Remote Management", }
     # May not apply to personal devices # - { description: "CIS 2.4.11 Disable Media Sharing", domain: com.apple.amp.mediasharingd, key: home-sharing-enabled, type: int, value: {{ allow_home_media_sharing | default('0') }} }
     # May not apply to personal devices # - { description: "CIS 2.4.11 Disable Media Sharing", domain: com.apple.amp.mediasharingd, key: public-sharing-enabled, type: int, value: {{ allow_public_media_sharing | default('0') }} } 
     - { description: "CIS 2.5.3 Enable Firewall", domain: com.apple.alf, key: globalstate, type: int, value: 1 }
@@ -56,9 +55,6 @@
     - { description: "CIS 2.9 Enable secure keyboard entry in terminal.app", domain: com.apple.Terminal, key: SecureKeyboardEntry }
     - { description: "CIS 2.10 Securely empty trash", domain: com.apple.finder, key: EmptyTrashSecurely }   
     # For Future Implementation # - { description: "CIS 2.12 Disable wake for network access and power nap", }
-    # - { description: "CIS 3.3 Ensure security auditing retention", }
-    # - { description: "CIS 3.4 Control access to audit records", }
-    # - { description: "CIS 3.5 Retain install.log for 365 days", }
     - { description: "CIS 3.6 Ensure firewall is configured to log", domain: com.apple.alf, key: loggingenabled, type: int, value: 1 }
     - { description: "CIS 4.1 Disable Bonjour advertising service", domain: com.apple.mDNSResponder, key: NoMulticastAdvertisements }
     # For Future Implementation # - { description: "CIS 4.2 Show WiFi status in menu bar", }
@@ -90,7 +86,10 @@
     key: autoLoginUser
     state: absent
 
-# TODO Restart Firewall, see https://github.com/drduh/macOS-Security-and-Privacy-Guide#application-layer-firewall
+- name: Restart firewall after making config changes
+  ansible.builtin.shell
+    cmd: pkill -HUP socketfilterfw
+  become: yes 
 
 - name: CIS Remediation Shell Commands
   ansible.builtin.shell:
@@ -124,7 +123,9 @@
 
 
 # TODO CIS 3.3-5 - AuditD Configuration Settings
-
+    # - { description: "CIS 3.3 Ensure security auditing retention", }
+    # - { description: "CIS 3.4 Control access to audit records", }
+    # - { description: "CIS 3.5 Retain install.log for 365 days", }
 
 - name: Configure Firefox Policies
   fetch:
