@@ -3,6 +3,23 @@
     name: com.apple.auditd
     state: reloaded
     
+- name: CIS 3.2-4 AuditD Configuration:
+  ansible.builtin.template:
+    source: files/audit_control.j2
+    dest: /etc/security/audit_control
+    backup: true
+    owner: root
+    group: wheel
+    mode: 400
+    
+- name: CIS 3.4 Control access to audit records
+  ansible.builtin.file:
+    path: /var/audit
+    recurse: true
+    owner: root 
+    group: wheel
+    mode: 440
+    
 - name: Unload Banned Launch Daemons
   community.general.launchd:
     name: "{{ item.name }}"
@@ -120,6 +137,7 @@
     - { description: "CIS 5.12 Disable ability to login to another user's active and locked session", cmd: '/usr/bin/security authorizationdb write system.login.screensaver "use-login-window-ui"' }
     - { description: "CIS 5.19 Verify SIP Is Enabled", cmd: "csrutil status" }
     - { description: "CIS 6.1.5 Remove guest home folder", cmd: "rm -rf /Users/Guest" }
+     
 
 # TODO CIS 3.3-5 - AuditD Configuration Settings
     # - { description: "CIS 3.3 Ensure security auditing retention", }
