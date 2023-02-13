@@ -5,7 +5,7 @@
     
 - name: CIS 3.2-4 AuditD Configuration
   ansible.builtin.template:
-    source: files/audit_control.j2
+    src: files/audit_control.j2
     dest: /etc/security/audit_control
     backup: true
     owner: root
