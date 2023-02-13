@@ -87,7 +87,7 @@
     state: absent
 
 - name: Restart firewall after making config changes
-  ansible.builtin.shell
+  ansible.builtin.shell:
     cmd: pkill -HUP socketfilterfw
   become: yes 
 
@@ -101,7 +101,7 @@
     - { descrtiption: "CIS 2.4.9 Disable Remote Management", cmd: "/System/Library/CoreServices/RemoteManagement/ARDAgent.app/Contents/Resources/kickstart -deactivate -stop" }
     - { description: "CIS 2.4.10 Disable Content Caching", cmd: "/usr/bin/AssetCacheManagerUtil deactivate" }
     - { descritpion: "CIS 2.5.2 - Gatekeeper Enabled", cmd: "spctl --master-enable" }
-    # - { description: "CIS 2.5.2 - Set Gatekeeper to Allow Identified Developers", cmd: }
+    # For future implementation # - { description: "CIS 2.5.2 - Set Gatekeeper to Allow Identified Developers", cmd: }
     - { description: "CIS 4.5 - Ensure nfs Server is not Running", cmd: "nfsd disable" }
     # - { description: "CIS 5.2.* Password Policies", cmd: }
     # - { description: "CIS 5.2.1 Account Lockout Threshhold", domain: com.apple.mobiledevice.passwordpolicy, key: maxFailedAttempts, type: int, value: 11 }
@@ -110,9 +110,9 @@
     # - { description: "CIS 5.2.5 Password Requires Complex Character", domain: com.apple.mobiledevice.passwordpolicy, key: minComplexChars, type: int, value: 1 }
     # Needs further research # - { description: "CIS 5.3 Reduce Sudo Timeout Period", cmd: "echo "Defaults timestamp_timeout=0" >> /etc/sudoers" }
     # Needs further research # - { description: "5.7 Do Not Enable Root Account", cmd: "dscl . -create /Users/root UserShell /usr/bin/false" }
-    - { description: "CIS 5.10 Ensure system is set to hibernate and destroy fievalut key", cmd: "pmset -a standbydelayhigh 600" }
-    - { description: "CIS 5.10 Ensure system is set to hibernate and destroy fievalut key", cmd: "pmset -a standbydelaylow 600" }
-    - { description: "CIS 5.10 Ensure system is set to hibernate and destroy fievalut key", cmd: "pmset -a highstandbythreshold 90" }
+    # May not be approprivate for a personal device # - { description: "CIS 5.10 Ensure system is set to hibernate and destroy fievalut key", cmd: "pmset -a standbydelayhigh 600" }
+    # May not be appropriate for a personal device # - { description: "CIS 5.10 Ensure system is set to hibernate and destroy fievalut key", cmd: "pmset -a standbydelaylow 600" }
+    # May not be appropriate for a personal device # - { description: "CIS 5.10 Ensure system is set to hibernate and destroy fievalut key", cmd: "pmset -a highstandbythreshold 90" }
     # May require additional steps first # - { description: "CIS 5.10 Ensure system is set to hibernate and destroy fievalut key", cmd: "pmset -a destroyfvkeyonstandby 1" }
     - { description: "CIS 5.11 Require an administrator password to access system-wide preferences", cmd: "security authorizationdb read system.preferences > /tmp/system.preferences.plist" }
     - { description: "CIS 5.11 Require an administrator password to access system-wide preferences", cmd: '/usr/libexec/PlistBuddy -c "Set :shared false" /tmp/system.preferences.plist' }
