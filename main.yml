@@ -20,4 +20,5 @@
 
   tasks:
     - include_tasks: tasks/dns.yml
+    - include_tasks: tasks/app_settings.yml
     # - include_tasks: tasks/morning_joe.yml

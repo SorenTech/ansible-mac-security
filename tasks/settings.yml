@@ -141,13 +141,4 @@
     - { description: "CIS 6.1.5 Remove guest home folder", cmd: "rm -rf /Users/Guest" }
      
 
-# TODO CIS 3.3-5 - AuditD Configuration Settings
-    # - { description: "CIS 3.3 Ensure security auditing retention", }
-    # - { description: "CIS 3.4 Control access to audit records", }
-    # - { description: "CIS 3.5 Retain install.log for 365 days", }
-
-- name: Configure Firefox Policies
-  fetch:
-    src: "files/firefox.policies.json"
-    dest: "/Applications/Firefox.app/Contents/Resources/distribution/policies.json"
-
+# TODO CIS 3.5 Retain install.log for 365 days"
