@@ -3,7 +3,7 @@
     name: com.apple.auditd
     state: reloaded
     
-- name: CIS 3.2-4 AuditD Configuration:
+- name: CIS 3.2-4 AuditD Configuration
   ansible.builtin.template:
     source: files/audit_control.j2
     dest: /etc/security/audit_control
@@ -103,10 +103,10 @@
     key: autoLoginUser
     state: absent
 
-- name: Restart firewall after making config changes
-  ansible.builtin.shell:
-    cmd: pkill -HUP socketfilterfw
-  become: yes 
+# - name: Restart firewall after making config changes
+#   ansible.builtin.shell:
+#     cmd: pkill -HUP socketfilterfw
+#   become: yes 
 
 - name: CIS Remediation Shell Commands
   ansible.builtin.shell:
