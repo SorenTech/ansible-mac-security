@@ -11,6 +11,7 @@
     owner: root
     group: wheel
     mode: 400
+  become: yes
     
 - name: CIS 3.4 Control access to audit records
   ansible.builtin.file:
@@ -19,6 +20,7 @@
     owner: root 
     group: wheel
     mode: 440
+  become: yes
     
 - name: Unload Banned Launch Daemons
   community.general.launchd:
