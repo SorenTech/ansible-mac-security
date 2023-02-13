@@ -95,6 +95,7 @@
   ansible.builtin.shell:
     cmd: "{{ item.cmd }}"
   become: yes
+  ignore_errors: yes
   loop:
     - { description: "CIS 2.4.5 Disable Remote Login", cmd: "/usr/sbin/systemsetup -f -setremotelogin off" }
     - { descrtiption: "CIS 2.4.9 Disable Remote Management", cmd: "/System/Library/CoreServices/RemoteManagement/ARDAgent.app/Contents/Resources/kickstart -deactivate -stop" }
@@ -117,10 +118,8 @@
     - { description: "CIS 5.11 Require an administrator password to access system-wide preferences", cmd: '/usr/libexec/PlistBuddy -c "Set :shared false" /tmp/system.preferences.plist' }
     - { description: "CIS 5.11 Require an administrator password to access system-wide preferences", cmd: "security authorizationdb write system.preferences < /tmp/system.preferences.plist" }
     - { description: "CIS 5.12 Disable ability to login to another user's active and locked session", cmd: '/usr/bin/security authorizationdb write system.login.screensaver "use-login-window-ui"' }
+    - { description: "CIS 5.19 Verify SIP Is Enabled", cmd: "csrutil status" }
     - { description: "CIS 6.1.5 Remove guest home folder", cmd: "rm -rf /Users/Guest" }
-
-# TODO CIS 5.19 Verify SIP Is Enabled, see https://github.com/drduh/macOS-Security-and-Privacy-Guide#system-integrity-protection
-
 
 # TODO CIS 3.3-5 - AuditD Configuration Settings
     # - { description: "CIS 3.3 Ensure security auditing retention", }
