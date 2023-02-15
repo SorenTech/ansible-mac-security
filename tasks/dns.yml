@@ -4,6 +4,7 @@
     repo: https://github.com/StevenBlack/hosts.git
     dest: /usr/local/hosts
     depth: 1
+    force: true
   become: yes
 
 - name: Install Hosts Updater Dependencies
