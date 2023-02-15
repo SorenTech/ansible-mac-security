@@ -12,7 +12,7 @@ homebrew_taps:
 
 homebrew_installed_packages:
   - bitwarden-cli
-  - dnsmasq
+  - dnsmasq --with-dnssec
   - dnscrypt-proxy
   - gnupg 
 
@@ -20,6 +20,7 @@ homebrew_cask_apps:
   - bitwarden
   - blockblock
   - dhs
+  - do-not-disturb
   - firefox
   - google-chrome
   - kextviewr
@@ -27,11 +28,8 @@ homebrew_cask_apps:
   - lockdown
   - lulu
   - netiquette
-  - nordvpn
   - oversight
   - ransomwhere
   - reikey
-  - security-growler
   - taskexplorer
-  - vivaldi
   - whatsyoursign
