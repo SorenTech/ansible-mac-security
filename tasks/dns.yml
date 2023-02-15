@@ -7,7 +7,7 @@
   become: yes
 
 - name: Install Hosts Updater Dependencies
-  ansible.buitlin.pip:
+  ansible.builtin.pip:
     chdir: /usr/local/hosts
     requirements: requirements.txt
     extra_args: --user -r 
