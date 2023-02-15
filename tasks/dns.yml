@@ -1,14 +1,22 @@
 ---
 - name: Clone Stephen Black Hosts
-  shell: git clone https://github.com/StevenBlack/hosts.git /usr/local/hosts --depth=1
+  ansible.builtin.git:
+    repo: https://github.com/StevenBlack/hosts.git
+    dest: /usr/local/hosts
+    depth: 1
   become: yes
 
 - name: Install Hosts Updater Dependencies
-  shell: cd /usr/local/hosts && pip3 install --user -r requirements.txt
+  ansible.buitlin.pip:
+    chdir: /usr/local/hosts
+    requirements: requirements.txt
+    extra_args: --user -r 
   become: yes
 
 - name: Generate Hosts File
-  shell: cd /usr/local/hosts && python3 updateHostsFile.py --auto --replace --flush-dns-cache --extensions fakenews gambling porn
+  ansible.builtin.shell: 
+    chdir: /usr/local/hosts 
+    cmd: python3 updateHostsFile.py --auto --replace --flush-dns-cache --extensions fakenews gambling porn
   become: yes
     
 # - name: Move HostsUpdater.Plist to Library/LaunchDaemons
