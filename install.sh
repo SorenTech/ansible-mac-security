@@ -8,9 +8,9 @@ set -x
 # Prerequisites: Install Python for your particular Mac Architecture (whether that is intel or M1)
 # What it does:
 # - Installs Homebrew if not present
-# - Installs and Configures Ansible if not present
+# - Installs Ansible if not present
 # - Clone/Update Ansible Playbook with git
-# - Run Ansible Playbook to Configure New Mac (including installing xcode tools and homebrew)
+# - Run Ansible Playbook to Configure New Mac
 
 should_install_homebrew() {
   ! [[ -e "${HOMEBREW_PREFIX}/bin/brew" ]]
@@ -33,12 +33,12 @@ should_configure_ansible() {
 }
 
 run_playbook() {
-  if $CICD_TEST == true; then
-    PLAYBOOK_ARGS="--skip-tags 'homebrew' -vv"
+  if $CICD_TEST
+  then
+    ansible-playbook main.yml -i inventory --extra-vars '{\"configure_sudoers\":\"false\"}' --skip-tags "homebrew" -vv
   else
-    PLAYBOOK_ARGS=""
+    ansible-playbook main.yml -i inventory --extra-vars '{\"configure_sudoers\":\"false\"}' 
   fi
-  ansible-playbook main.yml -i inventory --extra-vars '{\"configure_sudoers\":\"false\"}' $PLAYBOOK_ARGS
 }
 
 system_setup() {
@@ -81,7 +81,7 @@ system_setup() {
 
   if should_clone_repo
   then
-    git clone https://github.com/SorenTech/ansible-mac-security.git ~/.baseline
+    git clone https://github.com/SorenTech/ansible-mac-security.git $HOME/.baseline
   else
     cd $HOME/.baseline && git pull
   fi
