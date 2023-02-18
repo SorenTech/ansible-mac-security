@@ -34,11 +34,11 @@ should_configure_ansible() {
 
 run_playbook() {
   if $CICD_TEST == true; then
-    PLAYBOOK_ARGS="--skip-tags "homebrew" -vv"
+    PLAYBOOK_ARGS="--skip-tags 'homebrew' -vv"
   else
     PLAYBOOK_ARGS=""
   fi
-  ansible-playbook main.yml -i inventory --extra-vars '{\"configure_sudoers\":\"false\"}' "$PLAYBOOK_ARGS"
+  ansible-playbook main.yml -i inventory --extra-vars '{\"configure_sudoers\":\"false\"}' $PLAYBOOK_ARGS
 }
 
 system_setup() {
