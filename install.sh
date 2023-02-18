@@ -20,7 +20,7 @@ should_install_homebrew() {
 }
 
 should_install_ansible() {
-  ! [[ command -v ansible &> /dev/null ]]
+  ! [[ -x "$(command -v ansible)" ]]
 }
 
 should_clone_repo() {
