@@ -4,6 +4,9 @@ set -e
 set -u
 set -x
 
+PLAYBOOK_ARGS = ""
+CICD_TEST = false
+
 # Simple Install Script to Set Up Security Baseline on a New Mac with One Command Using Curl
 # Prerequisites: Install Python for your particular Mac Architecture (whether that is intel or M1)
 # What it does:
@@ -34,36 +37,57 @@ should_configure_ansible() {
   ! [[ -e "/etc/ansible/ansible.cfg" ]]
 }
 
-if should_install_homebrew
-then
-  /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-fi
+run_playbook() {
+  if $CICD_TEST == true; then
+    PLAYBOOK_ARGS = '--skip-tags "homebrew" -vv'
+  fi
+  ansible-playbook main.yml -i inventory --extra-vars '{\"configure_sudoers\":\"false\"}' $PLAYBOOK_ARGS
+}
 
-if should_install_ansible
-then
-  brew install ansible
-fi
+system_setup() {
+  if should_install_homebrew
+  then
+    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+  fi
 
-if should_clone_repo
-then
-  git clone https://github.com/SorenTech/ansible-mac-security.git ~/.baseline
-else
-  cd ~/.baseline && git pull
-fi
+  if should_install_ansible
+  then
+    brew install ansible
+  fi
 
-if should_configure_ansible
-then
-  cp ~/.baseline/ansible.cfg /etc/ansible/ansible.cfg
-fi
+  if should_clone_repo
+  then
+    git clone https://github.com/SorenTech/ansible-mac-security.git ~/.baseline
+  else
+    cd ~/.baseline && git pull
+  fi
 
-cd ~/.baseline && \
-  echo "Installing playbook requirements" && \
-  ansible-galaxy install -r requirements.yml && \
-  echo "Testing playbook syntax" && \
-  ansible-playbook main.yml -i inventory --syntax-check && \
-  echo "Running playbook" && \
-  ansible-playbook main.yml -i inventory --extra-vars '{\"configure_sudoers\":\"false\"}' && \
-  echo "Playbook completed"
-  
-exit 0
-  
+  if should_configure_ansible
+  then
+    cp ~/.baseline/ansible.cfg /etc/ansible/ansible.cfg
+  fi
+
+  cd ~/.baseline && \
+    echo "Installing playbook requirements" && \
+    ansible-galaxy install -r requirements.yml && \
+    echo "Testing playbook syntax" && \
+    ansible-playbook main.yml -i inventory --syntax-check && \
+    echo "Running playbook" && \
+    run_playbook && \
+    echo "Playbook completed"
+    
+  exit 0
+}
+
+for arg in "$@"
+do
+  case "$arg" in
+    -t) CICD_TEST == true
+        ;;
+    *) echo "Unrecognized argument"
+       exit 1
+       ;;
+   esac
+done
+
+system_setup
