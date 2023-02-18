@@ -42,7 +42,8 @@ run_playbook() {
 }
 
 system_setup() {
-  if $CICD_TEST == false; then
+  if ! $CICD_TEST
+  then
       # Ask for the administrator password upfront
       sudo -v
 
