@@ -33,13 +33,13 @@ should_configure_ansible() {
 
 run_playbook() {
   if $CICD_TEST == true; then
-    PLAYBOOK_ARGS='--skip-tags "homebrew" -vv'
+    $PLAYBOOK_ARGS='--skip-tags "homebrew" -vv'
   fi
   ansible-playbook main.yml -i inventory --extra-vars '{\"configure_sudoers\":\"false\"}' $PLAYBOOK_ARGS
 }
 
 system_setup() {
-  if CICD_TEST == false; then
+  if $CICD_TEST == false; then
       # Ask for the administrator password upfront
       sudo -v
 
@@ -84,7 +84,7 @@ system_setup() {
 for arg in "$@"
 do
   case "$arg" in
-    -t) CICD_TEST=true
+    -t) $CICD_TEST=true
         ;;
     *) echo "Unrecognized argument"
        exit 1
