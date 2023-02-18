@@ -61,6 +61,7 @@ system_setup() {
     else
       HOMEBREW_PREFIX="/usr/local"
     fi
+  fi
 
   if should_install_homebrew
   then
