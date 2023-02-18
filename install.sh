@@ -55,7 +55,7 @@ system_setup() {
     echo "Error: This script can only be run on a MacOS System"
     exit 1
   else
-    if [[ "${UNAME_MACHINE}" == "arm64" ]]
+    if [[ "$(/usr/bin/uname -m)" == "arm64" ]]
     then 
       HOMEBREW_PREFIX="/opt/homebrew"
     else
