@@ -3,9 +3,8 @@
         "AppAutoUpdate": true,
         "BackgroundAppUpdate": true,
         "Cookies": {
-            "Default": true,
-            "AcceptThirdParty": "from-visited",
-            "RejectTracker": true
+            "Behavior": "reject-tracker-and-partition-foreign",
+            "BehaviorPrivateBrowsing": "reject-tracker-and-partition-foreign"
         },
         "EnableTrackingProtection": {
             "Value": true,
@@ -47,8 +46,9 @@
             "Locked": true
         },
         "OfferToSaveLogins": false,
+        "PasswordManagerEnabled": false,
         "PopupBlocking": {
-            Default: true
+            "Default": true
         },
         "Preferences": {
             "security.insecure_connection_text.enabled": {
