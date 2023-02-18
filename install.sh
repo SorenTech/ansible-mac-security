@@ -13,7 +13,11 @@ set -x
 # - Run Ansible Playbook to Configure New Mac (including installing xcode tools and homebrew)
 
 should_install_homebrew() {
-  ! [[ -e "/usr/local/bin/brew" ]] || ! [[ -e "/opt/homebrew/bin/brew" ]]
+  ! [[ -e "${HOMEBREW_PREFIX}/bin/brew" ]]
+}
+
+no_python3() {
+  ! [[ -e "/usr/local/bin/2to3" ]]
 }
 
 should_install_ansible() {
@@ -45,6 +49,18 @@ system_setup() {
       # Keep-alive: update existing `sudo` time stamp until `install.sh` has finished
       while true; do sudo -n true; sleep 60; kill -0 "$$" || exit; done 2>/dev/null &  
   fi
+  
+  if ! [[ "$(uname)" == "Darwin" ]] 
+  then
+    echo "Error: This script can only be run on a MacOS System"
+    exit 1
+  else
+    if [[ "${UNAME_MACHINE}" == "arm64" ]]
+    then 
+      HOMEBREW_PREFIX="/opt/homebrew"
+    else
+      HOMEBREW_PREFIX="/usr/local"
+    fi
 
   if should_install_homebrew
   then
@@ -53,7 +69,12 @@ system_setup() {
 
   if should_install_ansible
   then
-    brew install ansible
+    if no_python
+    then
+      brew install ansible
+    else
+      brew install ansible -f
+    fi
   fi
 
   if should_clone_repo
