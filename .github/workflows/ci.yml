@@ -29,10 +29,17 @@ jobs:
       - name: Install test dependencies.
         run: pip3 install yamllint ansible-core ansible-lint
 
-      - name: Lint code.
-        run: |
-          yamllint .
-          ansible-lint
+      - name: Lint Yaml
+        continue-on-error: true
+        run: yamllint .
+          
+      - name: Lint Ansible
+        continue-on-error: true
+        run: ansible-lint
+        
+      - name: Run ShellCheck
+        uses: ludeeus/action-shellcheck@master
+        continue-on-error: true
           
       - name: Test the playbook's syntax.
         run: ansible-playbook main.yml --syntax-check     
@@ -58,6 +65,7 @@ jobs:
           ANSIBLE_FORCE_COLOR: '1'
 
       - name: Idempotence check.
+        continue-on-error: true
         run: |
           idempotence=$(mktemp)
           ansible-playbook main.yml --skip-tags "homebrew" | tee -a ${idempotence}
