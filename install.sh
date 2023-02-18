@@ -70,7 +70,7 @@ system_setup() {
 
   if should_install_ansible
   then
-    if no_python
+    if no_python3
     then
       brew install ansible
     else
@@ -97,7 +97,8 @@ system_setup() {
   exit 0
 }
 
-if $1=="-t"; then
+if [[ $1=="-t" ]]
+then
   CICD_TEST=true
 else
   CICD_TEST=false
