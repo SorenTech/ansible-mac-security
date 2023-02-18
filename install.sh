@@ -87,7 +87,10 @@ system_setup() {
 
   if should_configure_ansible
   then
+    mkdir /etc/ansible
     cp ~/.baseline/ansible.cfg /etc/ansible/ansible.cfg
+  else
+    cp -f ~/.baseline/ansible.cfg /etc/ansible/ansible.cfg
   fi
 
   cd ~/.baseline && \
