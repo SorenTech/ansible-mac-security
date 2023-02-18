@@ -4,8 +4,8 @@ set -e
 set -u
 set -x
 
-PLAYBOOK_ARGS = ""
-CICD_TEST = false
+PLAYBOOK_ARGS=""
+CICD_TEST=false
 
 # Simple Install Script to Set Up Security Baseline on a New Mac with One Command Using Curl
 # Prerequisites: Install Python for your particular Mac Architecture (whether that is intel or M1)
@@ -39,7 +39,7 @@ should_configure_ansible() {
 
 run_playbook() {
   if $CICD_TEST == true; then
-    PLAYBOOK_ARGS = '--skip-tags "homebrew" -vv'
+    PLAYBOOK_ARGS='--skip-tags "homebrew" -vv'
   fi
   ansible-playbook main.yml -i inventory --extra-vars '{\"configure_sudoers\":\"false\"}' $PLAYBOOK_ARGS
 }
@@ -82,7 +82,7 @@ system_setup() {
 for arg in "$@"
 do
   case "$arg" in
-    -t) CICD_TEST == true
+    -t) CICD_TEST=true
         ;;
     *) echo "Unrecognized argument"
        exit 1
