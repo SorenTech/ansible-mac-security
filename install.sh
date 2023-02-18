@@ -25,7 +25,7 @@ should_install_ansible() {
 }
 
 should_clone_repo() {
-  ! [[ -e "~/.baseline/.git" ]]
+  ! [[ -e "$HOME/.baseline/.git" ]]
 }
 
 should_configure_ansible() {
@@ -38,7 +38,7 @@ run_playbook() {
   else
     PLAYBOOK_ARGS=""
   fi
-  ansible-playbook main.yml -i inventory --extra-vars '{\"configure_sudoers\":\"false\"}' $PLAYBOOK_ARGS
+  ansible-playbook main.yml -i inventory --extra-vars '{\"configure_sudoers\":\"false\"}' "$PLAYBOOK_ARGS"
 }
 
 system_setup() {
@@ -83,10 +83,10 @@ system_setup() {
   then
     git clone https://github.com/SorenTech/ansible-mac-security.git ~/.baseline
   else
-    cd ~/.baseline && git pull
+    cd $HOME/.baseline && git pull
   fi
 
-  cd ~/.baseline && \
+  cd $HOME/.baseline && \
     echo "Installing playbook requirements" && \
     ansible-galaxy install -r requirements.yml && \
     echo "Testing playbook syntax" && \
@@ -98,7 +98,7 @@ system_setup() {
   exit 0
 }
 
-if [[ $1=="-t" ]]
+if [[ $1 == "-t" ]]
 then
   CICD_TEST=true
 else
