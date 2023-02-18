@@ -34,7 +34,7 @@ should_configure_ansible() {
 
 run_playbook() {
   if $CICD_TEST == true; then
-    PLAYBOOK_ARGS='--skip-tags "homebrew" -vv'
+    PLAYBOOK_ARGS="--skip-tags "homebrew" -vv"
   else
     PLAYBOOK_ARGS=""
   fi
