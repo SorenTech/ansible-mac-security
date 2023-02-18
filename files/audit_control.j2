@@ -1,0 +1,7 @@
+dir:/var/audit
+flags:{{ audit_control_flags | default("lo,ad,fd,fm,-all") }}
+minfree:5
+naflags:{{ audit_control_naflags | default("lo,ad,fd,fm,-all") }}
+policy:cnt,argv
+filesz:2M
+expire-after:{{ audit_control_expire_after | default("60d OR 1G") }}

@@ -1,37 +1,108 @@
 #!/bin/bash
 
+set -e
+set -u
+set -x
+
 # Simple Install Script to Set Up Security Baseline on a New Mac with One Command Using Curl
 # Prerequisites: Install Python for your particular Mac Architecture (whether that is intel or M1)
 # What it does:
-# - Install Ansible with pip
-# - Clone Ansible Playbook with git
-# - Run Ansible Playbook to Configure New Mac (including installing xcode tools and homebrew)
+# - Installs Homebrew if not present
+# - Installs Ansible if not present
+# - Clone/Update Ansible Playbook with git
+# - Run Ansible Playbook to Configure New Mac
 
-# Ask for the administrator password upfront
-sudo -v
+should_install_homebrew() {
+  ! [[ -e "${HOMEBREW_PREFIX}/bin/brew" ]]
+}
 
-# Keep-alive: update existing `sudo` time stamp until `install.sh` has finished
-while true; do sudo -n true; sleep 60; kill -0 "$$" || exit; done 2>/dev/null &
+no_python3() {
+  ! [[ -e "/usr/local/bin/2to3" ]]
+}
 
-sudo pip install ansible-core &&
+should_install_ansible() {
+  ! [[ -x "$(command -v ansible)" ]]
+}
 
-# Add ansible.cfg to pick up roles path.
-echo "[defaults]\n roles_path = ../" >> ansible.cfg
+should_clone_repo() {
+  ! [[ -e "$HOME/.baseline/.git" ]]
+}
 
-# Add a hosts file.
-sudo mkdir -p /etc/ansible &&
-sudo touch /etc/ansible/hosts &&
-echo "[local]\n localhost ansible_connection=local" | sudo tee -a /etc/ansible/hosts >/dev/null &&
+should_configure_ansible() {
+  ! [[ -e "/etc/ansible/ansible.cfg" ]]
+}
 
-# clone repo
-git clone https://github.com/SorenTech/ansible-mac-security.git ~/.baseline &&
-cd ~/.baseline &&
+run_playbook() {
+  if $CICD_TEST
+  then
+    ansible-playbook main.yml -i inventory --extra-vars '{\"configure_sudoers\":\"false\"}' --skip-tags "homebrew" -vv
+  else
+    ansible-playbook main.yml -i inventory --extra-vars '{\"configure_sudoers\":\"false\"}' 
+  fi
+}
 
-# install requirements
-ansible-galaxy install -r requirements.yml &&
+system_setup() {
+  if ! $CICD_TEST
+  then
+      # Ask for the administrator password upfront
+      sudo -v
 
-# check syntax
-ansible-playbook main.yml --syntax-check &&
+      # Keep-alive: update existing `sudo` time stamp until `install.sh` has finished
+      while true; do sudo -n true; sleep 60; kill -0 "$$" || exit; done 2>/dev/null &  
+  fi
+  
+  if ! [[ "$(uname)" == "Darwin" ]] 
+  then
+    echo "Error: This script can only be run on a MacOS System"
+    exit 1
+  else
+    if [[ "$(/usr/bin/uname -m)" == "arm64" ]]
+    then 
+      HOMEBREW_PREFIX="/opt/homebrew"
+    else
+      HOMEBREW_PREFIX="/usr/local"
+    fi
+  fi
 
-# run playbook
-ansible-playbook --extra-vars '{\"configure_sudoers\":\"false\"}' main.yml
+  if should_install_homebrew
+  then
+    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+  fi
+
+  if should_install_ansible
+  then
+    if no_python3
+    then
+      brew install ansible
+    else
+      brew install ansible -f
+    fi
+  fi
+
+  if should_clone_repo
+  then
+    git clone https://github.com/SorenTech/ansible-mac-security.git $HOME/.baseline
+  else
+    cd $HOME/.baseline && git pull
+  fi
+
+  cd $HOME/.baseline && \
+    echo "Installing playbook requirements" && \
+    ansible-galaxy install -r requirements.yml && \
+    echo "Testing playbook syntax" && \
+    ansible-playbook main.yml -i inventory --syntax-check && \
+    echo "Running playbook" && \
+    run_playbook && \
+    echo "Playbook completed"
+    
+  exit 0
+}
+
+if [[ $1 == "-t" ]]
+then
+  CICD_TEST=true
+else
+  CICD_TEST=false
+fi
+
+system_setup

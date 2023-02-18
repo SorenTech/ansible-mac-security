@@ -3,9 +3,8 @@
         "AppAutoUpdate": true,
         "BackgroundAppUpdate": true,
         "Cookies": {
-            "Default": true,
-            "AcceptThirdParty": "from-visited",
-            "RejectTracker": true
+            "Behavior": "reject-tracker-and-partition-foreign",
+            "BehaviorPrivateBrowsing": "reject-tracker-and-partition-foreign"
         },
         "EnableTrackingProtection": {
             "Value": true,
@@ -47,29 +46,30 @@
             "Locked": true
         },
         "OfferToSaveLogins": false,
+        "PasswordManagerEnabled": false,
         "PopupBlocking": {
-            Default: true
+            "Default": true
         },
         "Preferences": {
             "security.insecure_connection_text.enabled": {
                 "value": true,
-                "status": locked
+                "status": "locked"
             },
             "security.insecure_connection_text.pbmode.enabled": {
                 "value": true,
-                "status": locked
+                "status": "locked"
             },
             "security.insecure_field_warning.contextual.enabled": {
-                "status": locked
+                "status": "locked"
             },
             "security.tls.hello_downgrade_check": {
-                "status": locked
+                "status": "locked"
             },
             "security.tls.version.enable-deprecated": {
-                "status": locked
+                "status": "locked"
             },
             "security.warn_submit_secure_to_insecure": {
-                "status": locked
+                "status": "locked"
             }              
         },
         "SSLVersionMin": "tls1.2"

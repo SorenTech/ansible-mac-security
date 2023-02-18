@@ -1,6 +1,8 @@
 ---
 admin_user: "{{ ansible_user_id }}"
 
+login_message: "This computer is configured and managed by Soren LLC. Contact us at https://soren.tech"
+
 # homebrew_group: brew
 
 homebrew_taps:
@@ -10,7 +12,7 @@ homebrew_taps:
 
 homebrew_installed_packages:
   - bitwarden-cli
-  - dnsmasq
+  - dnsmasq --with-dnssec
   - dnscrypt-proxy
   - gnupg 
 
@@ -18,6 +20,7 @@ homebrew_cask_apps:
   - bitwarden
   - blockblock
   - dhs
+  - do-not-disturb
   - firefox
   - google-chrome
   - kextviewr
@@ -25,11 +28,8 @@ homebrew_cask_apps:
   - lockdown
   - lulu
   - netiquette
-  - nordvpn
   - oversight
   - ransomwhere
   - reikey
-  - security-growler
   - taskexplorer
-  - vivaldi
   - whatsyoursign

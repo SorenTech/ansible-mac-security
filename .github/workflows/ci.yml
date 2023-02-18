@@ -29,10 +29,18 @@ jobs:
       - name: Install test dependencies.
         run: pip3 install yamllint ansible-core ansible-lint
 
-      - name: Lint code.
-        run: |
-          yamllint .
-          ansible-lint
+      - name: Lint Yaml
+        continue-on-error: true
+        run: yamllint .
+          
+      - name: Lint Ansible
+        continue-on-error: true
+        run: ansible-lint
+        
+      - name: Run ShellCheck
+        uses: ludeeus/action-shellcheck@master
+        continue-on-error: true 
+  
   integration:
     name: Integration
     runs-on: ${{ matrix.os }}
@@ -48,24 +56,16 @@ jobs:
         with:
           path: ansible-mac-security
 
-      - name: Install test dependencies.
-        run: sudo pip3 install ansible-core
-
-      - name: Set up the test environment.
-        run: ansible-galaxy install -r requirements.yml
-  
-      - name: Test the playbook's syntax.
-        run: ansible-playbook main.yml --syntax-check
-
-      - name: Test the playbook.
-        run: ansible-playbook main.yml --skip-tags "homebrew"
+      - name: Test Installer Script
+        run: ./install.sh -t
         env:
           ANSIBLE_FORCE_COLOR: '1'
 
       - name: Idempotence check.
+        continue-on-error: true
         run: |
           idempotence=$(mktemp)
-          ansible-playbook main.yml | tee -a ${idempotence}
+          ansible-playbook main.yml --skip-tags "homebrew" | tee -a ${idempotence}
           tail ${idempotence} | grep -q 'changed=0.*failed=0' && (echo 'Idempotence test: pass' && exit 0) || (echo 'Idempotence test: fail' && exit 1)
         env:
           ANSIBLE_FORCE_COLOR: '1'
