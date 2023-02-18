@@ -85,14 +85,6 @@ system_setup() {
     cd ~/.baseline && git pull
   fi
 
-  if should_configure_ansible
-  then
-    mkdir /etc/ansible
-    cp ~/.baseline/ansible.cfg /etc/ansible/ansible.cfg
-  else
-    cp -f ~/.baseline/ansible.cfg /etc/ansible/ansible.cfg
-  fi
-
   cd ~/.baseline && \
     echo "Installing playbook requirements" && \
     ansible-galaxy install -r requirements.yml && \
