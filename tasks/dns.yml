@@ -3,22 +3,18 @@
   ansible.builtin.git:
     repo: https://github.com/StevenBlack/hosts.git
     dest: /usr/local/hosts
-    depth: 1
     force: true
-  become: yes
 
 - name: Install Hosts Updater Dependencies
   ansible.builtin.pip:
     chdir: /usr/local/hosts
     requirements: requirements.txt
     extra_args: --user 
-  become: yes
 
 - name: Generate Hosts File
   ansible.builtin.shell: 
     chdir: /usr/local/hosts 
     cmd: python3 updateHostsFile.py --auto --replace --flush-dns-cache --extensions fakenews gambling porn
-  become: yes
     
 # - name: Move HostsUpdater.Plist to Library/LaunchDaemons
 #  fetch:
