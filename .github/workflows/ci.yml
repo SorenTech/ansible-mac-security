@@ -65,10 +65,9 @@ jobs:
           ANSIBLE_FORCE_COLOR: '1'
 
       - name: Idempotence check.
-        continue-on-error: true
         run: |
           idempotence=$(mktemp)
-          ansible-playbook main.yml --skip-tags "homebrew" | tee -a ${idempotence}
+          ansible-playbook main.yml --skip-tags ["homebrew", "not-idempotent"] | tee -a ${idempotence}
           tail ${idempotence} | grep -q 'changed=0.*failed=0' && (echo 'Idempotence test: pass' && exit 0) || (echo 'Idempotence test: fail' && exit 1)
         env:
           ANSIBLE_FORCE_COLOR: '1'
