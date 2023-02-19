@@ -19,6 +19,10 @@ This is meant as a set-up script for a new device. Ideally you should:
 4. Log out of admin, log into standard
 5. Use standard for day-to-day activities (including linking to Apple-ID, if desired)
 
+**Note:** This workflow results in homebrew being owned by your admin user account. Packages installed with homebrew are available to all users on the system, but `brew` commands that make changes (ie, `brew install` or `brew upgrade`) will only be available to that user. You have two options:
+1. `su` to your admin user when you need to install/update packages
+2. `sudo chown -R <non-admin-user> <homebrew-directory>`, where `<homebrew-directory>` = `/opt/homebrew` on ARM Macs and `/usr/local/Homebrew` on intel Macs. Now your non-admin user controls Homebrew. Note that if you take this route and need to perform brew operations while using your admin user, you'll need to reverse this process to reclaim ownership of the homebrew directory.
+
 You can re-run the playbook to get the latest changes. First log into your admin account. Then:
 ```sh
 cd ~/.baseline
