@@ -22,8 +22,7 @@
 - name: Generate Hosts File
   ansible.builtin.shell: 
     chdir: $HOME/.hosts 
-    cmd: python3 updateHostsFile.py --auto --replace --flush-dns-cache --extensions fakenews gambling porn
-  become: True
+    cmd: sudo python3 updateHostsFile.py --auto --replace --flush-dns-cache --extensions fakenews gambling porn
     
 # - name: Move HostsUpdater.Plist to Library/LaunchDaemons
 #  fetch:
