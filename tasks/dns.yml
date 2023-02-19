@@ -10,18 +10,18 @@
 - name: Clone Stephen Black Hosts
   ansible.builtin.git:
     repo: https://github.com/StevenBlack/hosts.git
-    dest: /usr/local/hosts
+    dest: $HOME/.hosts
     force: true
 
 - name: Install Hosts Updater Dependencies
   ansible.builtin.pip:
-    chdir: /usr/local/hosts
+    chdir: $HOME/.hosts
     requirements: requirements.txt
     extra_args: --user 
 
 - name: Generate Hosts File
   ansible.builtin.shell: 
-    chdir: /usr/local/hosts 
+    chdir: $HOME/.hosts 
     cmd: python3 updateHostsFile.py --auto --replace --flush-dns-cache --extensions fakenews gambling porn
     
 # - name: Move HostsUpdater.Plist to Library/LaunchDaemons
@@ -48,6 +48,7 @@
 - name: start homebrew services
   shell: "brew services start {{ item }}"
   become: True
+  tags: ["not-idempotent", "install-only"]
   loop:
     - dnscrypt-proxy
     - dnsmasq

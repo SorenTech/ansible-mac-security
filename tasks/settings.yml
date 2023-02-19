@@ -115,6 +115,7 @@
     cmd: "{{ item.cmd }}"
   become: yes
   ignore_errors: yes
+  tags: ["not-idempotent"]
   loop:
     - { description: "CIS 2.4.5 Disable Remote Login", cmd: "/usr/sbin/systemsetup -f -setremotelogin off" }
     - { descrtiption: "CIS 2.4.9 Disable Remote Management", cmd: "/System/Library/CoreServices/RemoteManagement/ARDAgent.app/Contents/Resources/kickstart -deactivate -stop" }
