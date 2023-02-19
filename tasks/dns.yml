@@ -37,10 +37,10 @@
 #    become: yes
 
 - name: configure dns packages
-  fetch:
+  ansible.builtin.copy:
     src: "files/{{ item }}"
     dest: "$HOMEBREW_PREFIX/etc/{{ item }}"
-    flat: yes
+    force: true
   loop:
     - dnscrypt-proxy.toml
     - dnsmasq.conf
