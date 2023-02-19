@@ -19,7 +19,7 @@ You can override any of the defaults configured in `default.config.yml` by creat
       - git
       - go
     
-Any variable can be overridden in `config.yml`; see the supporting roles' documentation for a complete list of available variables. However, be aware that if you remove `dnscrypt-proxy`, `dnsmasq`, or `python3` from the list you may break other parts of the playbook that depend on these being present.
+Any variable can be overridden in `config.yml`; see the supporting roles' documentation for a complete list of available variables.
 
 ## What This Playbook Does:
 - Configure curl based on drduh's recomendations
