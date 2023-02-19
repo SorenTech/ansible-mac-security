@@ -36,11 +36,22 @@
 #    state: started
 #    become: yes
 
-- name: configure dns packages
-  fetch:
+- name: configure dns packages - arm
+  ansible.builtin.copy:
     src: "files/{{ item }}"
-    dest: "$HOMEBREW_PREFIX/etc/{{ item }}"
-    flat: yes
+    dest: "/opt/homebrew/etc/{{ item }}"
+    force: true
+  when: ansible_facts['architecture'] == "arm64"
+  loop:
+    - dnscrypt-proxy.toml
+    - dnsmasq.conf
+
+- name: configure dns packages - x86
+  ansible.builtin.copy:
+    src: "files/{{ item }}"
+    dest: "/usr/local/etc/{{ item }}"
+    force: true
+  when: ansible_facts['architecture'] == "x86_64"
   loop:
     - dnscrypt-proxy.toml
     - dnsmasq.conf

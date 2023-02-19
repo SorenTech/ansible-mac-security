@@ -59,9 +59,9 @@ system_setup() {
   else
     if [[ "$(/usr/bin/uname -m)" == "arm64" ]]
     then 
-      HOMEBREW_PREFIX="/opt/homebrew"
+      export HOMEBREW_PREFIX="/opt/homebrew"
     else
-      HOMEBREW_PREFIX="/usr/local"
+      export HOMEBREW_PREFIX="/usr/local"
     fi
   fi
 
