@@ -10,6 +10,31 @@ Quick install method:
 
 > Note: If some Homebrew commands fail, you might need to agree to Xcode's license or fix some other Brew issue. Run `brew doctor` to see if this is the case.
 
+### Ideal Workflow
+
+This is meant as a set-up script for a new device. Ideally you should:
+1. Start up the new device and create a designated "admin" account
+2. Run the install command above from your terminal
+3. Create a second "standard" account (ie, no admin privileges)
+4. Log out of admin, log into standard
+5. Use standard for day-to-day activities (including linking to Apple-ID, if desired)
+
+You can re-run the playbook to get the latest changes. First log into your admin account. Then:
+```sh
+cd ~/.baseline
+git pull
+ansible-playbook main.yml --skip-tags "install-only"
+```
+
+It's on the roadmap to automate that update process via a launchdaemon or cron job.
+
+If you get an error about needing sudo permissions for any of the steps in the playbook during a subsequent run, initate sudo with `sudo -v` first, then re-run `ansible-playbook main.yml --skip-tags "install-only"`
+
+### If Running on an Existing Device
+You can also use the same curl -> bash method on an established machine, but with a couple of caveats:
+1. If you already have a designated "admin" account, make sure you run this from that account
+2. If you already have dnsmasq or dnscrypt-proxy running as homebrew services, don't use the install script. Instead, clone the repo and run the playbook direclty using `ansible-playbook main.yml --skip-tags "install-only"`
+
 ## Overriding Defaults
 
 You can override any of the defaults configured in `default.config.yml` by creating a `config.yml` file and setting the overrides in that file. For example, you can customize the installed packages and apps with something like:
@@ -19,7 +44,7 @@ You can override any of the defaults configured in `default.config.yml` by creat
       - git
       - go
     
-Any variable can be overridden in `config.yml`; see the supporting roles' documentation for a complete list of available variables. However, be aware that if you remove `dnscrypt-proxy`, `dnsmasq`, or `python3` from the list you may break other parts of the playbook that depend on these being present.
+Any variable can be overridden in `config.yml`; see the supporting roles' documentation for a complete list of available variables. 
 
 ## What This Playbook Does:
 - Configure curl based on drduh's recomendations
