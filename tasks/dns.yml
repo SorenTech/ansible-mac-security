@@ -1,12 +1,11 @@
 ---
 - name: Install packages for DNS configuration
   community.general.homebrew:
-    name: "{{ item.name }}"
-    install_options: "{{ item.options | default('') }}"
+    name: "{{ item }}"
     state: latest
   loop:
-    - { name: "dnsmasq", options: "--with-dnssec" }
-    - { name: "dnscrypt-proxy" }
+    - dnsmasq
+    - dnscrypt-proxy
 
 - name: Clone Stephen Black Hosts
   ansible.builtin.git:
