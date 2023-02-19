@@ -38,12 +38,12 @@
 
 - name: configure dns packages
   fetch:
-    src: "files/{{ item.src }}"
-    dest: "/usr/local/etc/{{ item.dest }}"
+    src: "files/{{ item }}"
+    dest: "$HOMEBREW_PREFIX/etc/{{ item }}"
     flat: yes
   loop:
-    - { src: dnscrypt-proxy.toml, dest: dnscrypt-proxy.toml }
-    - { src: dnsmasq.conf, dest: dnsmasq.conf } 
+    - dnscrypt-proxy.toml
+    - dnsmasq.conf
 
 - name: start homebrew services
   shell: "sudo brew services start {{ item }}"
