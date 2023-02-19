@@ -35,7 +35,8 @@ should_configure_ansible() {
 run_playbook() {
   if $CICD_TEST
   then
-    ansible-playbook main.yml -i inventory --extra-vars '{\"configure_sudoers\":\"false\"}' --skip-tags "homebrew" -vv
+    echo "Playbook would have run here."
+    exit 0
   else
     ansible-playbook main.yml -i inventory --extra-vars '{\"configure_sudoers\":\"false\"}' 
   fi
@@ -94,8 +95,6 @@ system_setup() {
     echo "Running playbook" && \
     run_playbook && \
     echo "Playbook completed"
-    
-  exit 0
 }
 
 if [ $# -ge 1 ] && [ $1 == "-t" ]

@@ -57,7 +57,10 @@ jobs:
           path: ansible-mac-security
 
       - name: Test Installer Script
-        run: ./install.sh -t
+        run: ./install.sh -t  
+        
+      - name: Test Playbook
+        run: ansible-playbook main.yml --skip-tags "homebrew"   
         env:
           ANSIBLE_FORCE_COLOR: '1'
 
