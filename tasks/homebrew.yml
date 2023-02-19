@@ -8,12 +8,11 @@
     name: "{{ item }}"
     state: latest
   with_items: "{{ homebrew_installed_packages }}"
-  # tags: ["homebrew"]
+  tags: ["homebrew"]
   
 - name: Install homebrew casks
-  community.general.homebrew_cask:
+  community.general.homebrew:
     name: "{{ item }}"
     state: latest
   with_items: "{{ homebrew_cask_apps }}"
-  # tags: ["homebrew"]
-  
+  tags: ["homebrew"]
