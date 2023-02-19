@@ -46,8 +46,7 @@
     - { src: dnsmasq.conf, dest: dnsmasq.conf } 
 
 - name: start homebrew services
-  shell: "brew services start {{ item }}"
-  become: True
+  shell: "sudo brew services start {{ item }}"
   tags: ["not-idempotent", "install-only"]
   loop:
     - dnscrypt-proxy
