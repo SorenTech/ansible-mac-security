@@ -10,15 +10,11 @@
       with_fileglob:
         - "{{ playbook_dir }}/config.yml"
       tags: ['always']
+      
+  tasks:
     - include_tasks: tasks/settings.yml
     - include_tasks: tasks/curl.yml
-
-  roles:
-    - role: geerlingguy.mac.homebrew
-      tags: ['homebrew']
-      ignore_errors: yes
-
-  tasks:
     - include_tasks: tasks/dns.yml
     - include_tasks: tasks/app_settings.yml
+    - include_tasks: tasks/homebrew.yml
     # - include_tasks: tasks/morning_joe.yml

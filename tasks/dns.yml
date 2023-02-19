@@ -1,24 +1,29 @@
 ---
+- name: Install packages for DNS configuration
+  community.general.homebrew:
+    name: "{{ item.name }}"
+    install_options: "{{ item.options | default('') }}"
+    state: latest
+  loop:
+    - { name: "dnsmasq", options: "--with-dnssec" }
+    - { name: "dnscrypt-proxy" }
+
 - name: Clone Stephen Black Hosts
   ansible.builtin.git:
     repo: https://github.com/StevenBlack/hosts.git
     dest: /usr/local/hosts
-    depth: 1
     force: true
-  become: yes
 
 - name: Install Hosts Updater Dependencies
   ansible.builtin.pip:
     chdir: /usr/local/hosts
     requirements: requirements.txt
     extra_args: --user 
-  become: yes
 
 - name: Generate Hosts File
   ansible.builtin.shell: 
     chdir: /usr/local/hosts 
     cmd: python3 updateHostsFile.py --auto --replace --flush-dns-cache --extensions fakenews gambling porn
-  become: yes
     
 # - name: Move HostsUpdater.Plist to Library/LaunchDaemons
 #  fetch:
@@ -44,7 +49,6 @@
 - name: start homebrew services
   shell: "brew services start {{ item }}"
   become: True
-  tags: ['homebrew']
   loop:
     - dnscrypt-proxy
     - dnsmasq

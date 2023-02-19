@@ -98,11 +98,15 @@ system_setup() {
   exit 0
 }
 
-if [[ $1 == "-t" ]]
+if [ $# -ge 1 ] && [ $1 == "-t" ]
 then
   CICD_TEST=true
-else
+elif [ $# -eq 0 ]
+then
   CICD_TEST=false
+else
+  echo "Error: Unknown Argument $1"
+  exit 1
 fi
 
 system_setup

@@ -12,8 +12,6 @@ homebrew_taps:
 
 homebrew_installed_packages:
   - bitwarden-cli
-  - dnsmasq --with-dnssec
-  - dnscrypt-proxy
   - gnupg 
 
 homebrew_cask_apps:
