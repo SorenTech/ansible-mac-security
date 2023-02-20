@@ -16,6 +16,10 @@ should_install_homebrew() {
   ! [[ -e "${HOMEBREW_PREFIX}/bin/brew" ]]
 }
 
+should_add_homebrew_to_path() {
+  ! [[ ":${PATH}:" = *":${HOMEBREW_PREFIX}/bin:"* ]]
+}
+
 no_python3() {
   ! [[ -e "/usr/local/bin/2to3" ]]
 }
@@ -59,15 +63,38 @@ system_setup() {
   else
     if [[ "$(/usr/bin/uname -m)" == "arm64" ]]
     then 
-      export HOMEBREW_PREFIX="/opt/homebrew"
+      HOMEBREW_PREFIX="/opt/homebrew"
     else
-      export HOMEBREW_PREFIX="/usr/local"
+      HOMEBREW_PREFIX="/usr/local"
     fi
   fi
 
   if should_install_homebrew
   then
     /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+  fi
+  
+  if should_add_homebrew_to_path
+  then
+    case "${SHELL}" in
+      */bash*)
+        if [[ -r "${HOME}/.bash_profile" ]]
+        then
+          shell_profile="${HOME}/.bash_profile"
+        else
+          shell_profile="${HOME}/.profile"
+        fi
+        ;;
+      */zsh*)
+        shell_profile="${HOME}/.zprofile"
+        ;;
+      *)
+        shell_profile="${HOME}/.profile"
+        ;;
+    esac
+    
+    (echo; echo 'eval "\$(${HOMEBREW_PREFIX}/bin/brew shellenv)"') >> ${shell_profile}
+    eval "\$(${HOMEBREW_PREFIX}/bin/brew shellenv)"
   fi
 
   if should_install_ansible
