@@ -78,6 +78,7 @@ system_setup() {
   then
     case "${SHELL}" in
       */bash*)
+        shell_suffix=" bash"
         if [[ -r "${HOME}/.bash_profile" ]]
         then
           shell_profile="${HOME}/.bash_profile"
@@ -86,6 +87,7 @@ system_setup() {
         fi
         ;;
       */zsh*)
+        shell_suffix=" zsh"
         shell_profile="${HOME}/.zprofile"
         ;;
       *)
@@ -93,8 +95,9 @@ system_setup() {
         ;;
     esac
     
-    (echo; echo 'eval "\$(${HOMEBREW_PREFIX}/bin/brew shellenv)"') >> ${shell_profile}
-    eval "\$(${HOMEBREW_PREFIX}/bin/brew shellenv)"
+    echo >> ${shell_profile}
+    echo 'eval "\$(${HOMEBREW_PREFIX}/bin/brew shellenv${shell_suffix})"' >> ${shell_profile}
+    eval "\$(${HOMEBREW_PREFIX}/bin/brew shellenv${shell_suffix})"
   fi
 
   if should_install_ansible
