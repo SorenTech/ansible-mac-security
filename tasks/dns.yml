@@ -11,6 +11,7 @@
   ansible.builtin.git:
     repo: https://github.com/StevenBlack/hosts.git
     dest: $HOME/.hosts
+    depth: 1
     force: true
 
 - name: Install Hosts Updater Dependencies
