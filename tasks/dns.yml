@@ -16,6 +16,7 @@
 - name: Install Hosts Updater Dependencies
   ansible.builtin.pip:
     chdir: $HOME/.hosts
+    executable: pip3
     requirements: requirements.txt
     extra_args: --user 
 
